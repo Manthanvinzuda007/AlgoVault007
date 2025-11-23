@@ -1,0 +1,1319 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore Paths - AlgoVault</title>
+
+    <!-- Consistent Fonts: Inter and Playfair Display -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Phosphor Icons (Consistent with Practice page) -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <style>
+        /* * ==============================================
+         * 1. CSS VARIABLES (THEME: Cozy Study / Blue & Gold)
+         * Copied directly from MN Practice.html for consistency.
+         * ==============================================
+         */
+        :root {
+            --font-family: 'Inter', sans-serif;
+            --title-font-family: 'Playfair Display', serif;
+            
+            /* --- COZY STUDY COLORS --- */
+            --primary-blue: #436b95; /* Main Accent */
+            --accent-gold: #caa855; /* Highlight Accent */
+            --dark-text: #2b2f36;
+
+            /* Light Mode */
+            --bg-primary-light: #f7f9fb;      /* Page background (soft gradient start) */
+            --bg-secondary-light: #ffffff;      /* Card/Navbar background */
+            --bg-tertiary-light: #e7eef4;      /* Input/Hover background (light slate blue) */
+            --text-primary-light: var(--dark-text);     /* Body text */
+            --text-secondary-light: #59626d;    /* Muted text */
+            --border-color-light: #d0d7de;      /* Softer Borders */
+            --shadow-color-light: rgba(0, 0, 0, 0.05);
+            
+            /* Dark Mode */
+            --bg-primary-dark: #121821;         /* Page background */
+            --bg-secondary-dark: #1f2937;        /* Card/Navbar background */
+            --bg-tertiary-dark: #374151;         /* Input/Hover background */
+            --text-primary-dark: #e5e7eb;       /* Body text */
+            --text-secondary-dark: #a0a0a0;     /* Muted text */
+            --border-color-dark: #374151;       /* Borders */
+            --shadow-color-dark: rgba(0, 0, 0, 0.4);
+            
+            /* Unified Accents */
+            --accent-primary: var(--primary-blue);
+            --accent-primary-hover: #33587e;
+            --accent-primary-light: rgba(67, 107, 149, 0.2);
+            --accent-highlight: var(--accent-gold);
+            
+            /* Difficulty Colors (Used for progress and indicators) */
+            --difficulty-easy: #4caf50; 
+            --difficulty-medium: #ff9800; 
+            --difficulty-hard: #f44336; 
+
+            /* --- Subject Specific Colors (Updated and Expanded) --- */
+            --subject-dp: #6a0dad;      /* Deep Purple */
+            --subject-graphs: #008080;  /* Teal */
+            --subject-sql: #b8860b;     /* Dark Goldenrod */
+            --subject-binary: #4169e1;   /* Royal Blue */
+            --subject-system: #d2691e;  /* Chocolate */
+            --subject-pointers: #708090; /* Slate Gray */
+            --subject-heap: #ff6347;    /* Tomato */
+            
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --shadow-sm: 0 1px 3px var(--shadow-color);
+            --shadow-md: 0 5px 15px var(--shadow-color), 0 2px 5px var(--shadow-color);
+            --transition-fast: all 0.2s ease-out;
+            --transition-color: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        /* Theme application based on data attribute */
+        [data-theme="light"] {
+            --bg-primary: var(--bg-primary-light);
+            --bg-secondary: var(--bg-secondary-light);
+            --bg-tertiary: var(--bg-tertiary-light);
+            --text-primary: var(--text-primary-light);
+            --text-secondary: var(--text-secondary-light);
+            --border-color: var(--border-color-light);
+            --shadow-color: var(--shadow-color-light);
+            --tag-bg: rgba(67, 107, 149, 0.1); /* Blue background for light theme tags */
+            --tag-color: var(--accent-primary);
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: var(--bg-primary-dark);
+            --bg-secondary: var(--bg-secondary-dark);
+            --bg-tertiary: var(--bg-tertiary-dark);
+            --text-primary: var(--text-primary-dark);
+            --text-secondary: var(--text-secondary-dark);
+            --border-color: var(--border-color-dark);
+            --shadow-color: var(--shadow-color-dark);
+            --tag-bg: rgba(202, 168, 85, 0.1); /* Gold background for dark theme tags */
+            --tag-color: var(--accent-highlight);
+        }
+        
+        /* * ==============================================
+         * 2. BASE & BODY STYLES (Includes subtle background animation)
+         * ==============================================
+         */
+        @keyframes slow-pan {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: var(--transition-color);
+            position: relative; 
+        }
+        
+        /* Subtle Animated Background Effect from MN Practice.html */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.15;
+            background: radial-gradient(circle at 10% 90%, var(--accent-primary-light) 0%, transparent 50%),
+                        radial-gradient(circle at 90% 10%, var(--accent-highlight) 0%, transparent 50%);
+            background-size: 80% 80%;
+            animation: slow-pan 30s linear infinite alternate; 
+        }
+
+        [data-theme="dark"]::before {
+            opacity: 0.1; 
+            background: radial-gradient(circle at 10% 90%, var(--accent-primary) 0%, transparent 50%),
+                        radial-gradient(circle at 90% 10%, var(--accent-highlight) 0%, transparent 50%);
+        }
+
+        /* * ==============================================
+         * 3. NAVBAR (Consistent with CodeArena)
+         * ==============================================
+         */
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 1.5rem;
+            background-color: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            flex-shrink: 0;
+            transition: var(--transition-color);
+            box-shadow: var(--shadow-sm);
+            z-index: 100;
+            position: sticky;
+            top: 0;
+            width: 100%;
+        }
+        
+        .nav-logo {
+            font-family: var(--title-font-family); 
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            letter-spacing: -0.5px;
+            text-decoration: none;
+        }
+        .nav-logo i {
+            color: var(--accent-highlight); 
+            vertical-align: middle;
+            font-size: 1.8rem;
+            margin-right: 0.25rem;
+        }
+
+        .nav-center {
+            display: flex;
+            gap: 1rem;
+        }
+        .nav-center a {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            padding: 0.5rem 0.75rem;
+            border-radius: var(--radius-md);
+            transition: var(--transition-fast);
+            text-decoration: none;
+        }
+        .nav-center a.active, .nav-center a:hover {
+            background-color: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            position: relative; /* For the profile dropdown */
+        }
+        
+        .theme-toggle {
+            width: 36px; height: 36px;
+            border: none;
+            background-color: var(--bg-tertiary);
+            color: var(--text-secondary);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            font-size: 1.1rem;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .theme-toggle:hover {
+            background-color: var(--border-color);
+            color: var(--text-primary);
+        }
+        .theme-toggle .ph-sun { display: none; }
+        .theme-toggle .ph-moon { display: block; }
+        [data-theme="dark"] .theme-toggle .ph-sun { display: block; }
+        [data-theme="dark"] .theme-toggle .ph-moon { display: none; }
+
+        .profile-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: var(--bg-tertiary);
+            border: 2px solid var(--accent-highlight); /* Gold accent border */
+            cursor: pointer;
+            object-fit: cover;
+            transition: all 0.2s ease;
+        }
+        .profile-avatar:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 0 4px var(--accent-primary-light);
+        }
+
+        /* * ==============================================
+         * 3.1 PROFILE POPUP STYLES (New)
+         * ==============================================
+         */
+        .profile-popup {
+            position: absolute;
+            top: 100%; /* Position below the navbar */
+            right: 0;
+            margin-top: 0.5rem;
+            width: 280px;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            padding: 1rem;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+        }
+
+        .profile-popup.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .profile-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 1rem;
+        }
+
+        .profile-info .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--accent-highlight);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark-text);
+        }
+
+        .profile-details h5 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .profile-details p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .profile-menu a {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: background-color 0.2s ease;
+            font-size: 0.9rem;
+        }
+
+        .profile-menu a:hover {
+            background-color: var(--bg-tertiary);
+            color: var(--accent-primary);
+        }
+        .profile-menu a .ph {
+            font-size: 1.25rem;
+            opacity: 0.8;
+        }
+
+
+        /* * ==============================================
+         * 4. MAIN CONTENT & LAYOUT
+         * ==============================================
+         */
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .explore-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .explore-header h1 {
+            font-family: var(--title-font-family);
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .explore-header p {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+        }
+
+        .search-filters {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .search-bar {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .search-bar .ph {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.75rem;
+            font-family: var(--font-family);
+            font-size: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            background-color: var(--bg-secondary);
+            transition: var(--transition-fast);
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px var(--accent-primary-light);
+            background-color: var(--bg-secondary);
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 0.5rem;
+            background-color: var(--bg-secondary);
+            padding: 0.5rem;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .filter-tab {
+            background: none;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: var(--transition-fast);
+            text-transform: capitalize;
+        }
+
+        .filter-tab:hover {
+            color: var(--text-primary);
+        }
+
+        .filter-tab.active {
+            background-color: var(--accent-primary);
+            color: var(--bg-secondary-light); /* White text in light mode */
+        }
+        [data-theme="dark"] .filter-tab.active {
+            color: var(--text-primary-light); /* Dark text in dark mode for contrast */
+        }
+
+        .page-layout {
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+            gap: 2rem;
+            margin-top: 2.5rem;
+        }
+
+        /* * ==============================================
+         * 5. EXPLORE CARDS GRID
+         * ==============================================
+         */
+        .explore-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .explore-card {
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-md);
+            transition: var(--transition-fast);
+            cursor: pointer;
+            /* New: for filtering */
+            opacity: 1;
+            transform: scale(1);
+            transition: all 0.5s ease-in-out; 
+        }
+        
+        .explore-card.hidden {
+            display: none;
+            opacity: 0;
+            transform: scale(0.95);
+        }
+
+        .explore-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 30px rgba(67, 107, 149, 0.15); /* Blue-based shadow hover */
+        }
+        [data-theme="dark"] .explore-card:hover {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-banner {
+            height: 100px;
+            padding: 1rem; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem; 
+            color: white; 
+            
+            /* Default Gradient. Actual gradient is set via inline style based on data-subject */
+            background-image: linear-gradient(135deg, var(--accent-primary), var(--accent-highlight));
+            opacity: 0.8;
+            border-bottom: 2px solid var(--accent-highlight);
+        }
+        
+        /* Dynamic Banner Background based on subject */
+        .card-banner[data-subject="dp"] {
+             background-image: linear-gradient(135deg, var(--subject-dp), #8a2be2); 
+        }
+        .card-banner[data-subject="graphs"] {
+            background-image: linear-gradient(135deg, var(--subject-graphs), #40e0d0); 
+        }
+        .card-banner[data-subject="sql"] {
+            background-image: linear-gradient(135deg, var(--subject-sql), #ffd700); 
+        }
+        .card-banner[data-subject="binary"] {
+            background-image: linear-gradient(135deg, var(--subject-binary), #4682b4); 
+        }
+        .card-banner[data-subject="system"] {
+            background-image: linear-gradient(135deg, var(--subject-system), #ff7f50); /* Coral */
+        }
+        .card-banner[data-subject="pointers"] {
+            background-image: linear-gradient(135deg, var(--subject-pointers), #778899); /* Light Slate Gray */
+        }
+        .card-banner[data-subject="heap"] {
+            background-image: linear-gradient(135deg, var(--subject-heap), #ff4500); /* Orange Red */
+        }
+
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .card-content h3 {
+            font-family: var(--title-font-family);
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .card-content p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            min-height: 40px; 
+        }
+
+        .card-tags {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .tag {
+            font-size: 0.75rem;
+            font-weight: 500;
+            padding: 0.25rem 0.6rem;
+            border-radius: 16px;
+            background-color: var(--tag-bg); /* Theme-based tag background */
+            color: var(--tag-color); /* Theme-based tag color */
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 8px;
+            background-color: var(--border-color);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 1.25rem;
+        }
+
+        .progress-bar-inner {
+            height: 100%;
+            background-color: var(--accent-highlight); /* Use Gold for progress */
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        /* General Button Style (Matching Home/Practice) */
+        .btn {
+            display: inline-block;
+            font-family: var(--font-family);
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 0.6rem 1.2rem;
+            border-radius: var(--radius-md);
+            border: none;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            width: 100%;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-primary);
+            color: var(--bg-secondary-light);
+        }
+        [data-theme="dark"] .btn-primary {
+            background-color: var(--accent-highlight);
+            color: var(--dark-text);
+        }
+        .btn-primary:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(67, 107, 149, 0.25);
+        }
+        [data-theme="dark"] .btn-primary:hover {
+            box-shadow: 0 4px 10px rgba(202, 168, 85, 0.25);
+        }
+        
+        /* * ==============================================
+         * 6. SIDEBAR
+         * ==============================================
+         */
+        .sidebar {
+            position: sticky;
+            top: 85px; 
+            height: fit-content;
+            padding: 1.5rem;
+            border-radius: var(--radius-lg);
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-md);
+        }
+
+        .sidebar-widget {
+            margin-bottom: 2rem;
+        }
+
+        .sidebar-widget h4 {
+            font-family: var(--title-font-family);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .recommend-card {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem;
+            border-radius: var(--radius-md);
+            transition: var(--transition-fast);
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .recommend-card:hover {
+            background-color: var(--bg-tertiary);
+        }
+
+        .recommend-icon {
+            flex-shrink: 0;
+            width: 40px;
+            height: 40px;
+            border-radius: 6px;
+            background-color: var(--accent-highlight);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .recommend-icon .ph {
+            color: var(--bg-secondary-light);
+            font-size: 1.25rem;
+        }
+        [data-theme="dark"] .recommend-icon .ph {
+            color: var(--dark-text);
+        }
+
+
+        .recommend-info h5 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.1rem;
+        }
+
+        .recommend-info p {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .quick-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .quick-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem;
+            border-radius: var(--radius-md);
+            background-color: transparent;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 500;
+            width: 80px; 
+            transition: var(--transition-fast);
+        }
+
+        .quick-link:hover {
+            background-color: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+        
+        .quick-link .icon-box {
+            width: 40px;
+            height: 40px;
+            border-radius: 6px;
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .quick-link .icon-box .ph {
+            color: var(--accent-primary);
+            font-size: 1.25rem;
+        }
+        [data-theme="dark"] .quick-link .icon-box .ph {
+            color: var(--accent-highlight);
+        }
+
+
+        /* * ==============================================
+         * 7. MODAL
+         * ==============================================
+         */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            width: 100%;
+            max-width: 550px;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            transform: translateY(30px);
+            transition: transform 0.4s ease;
+            position: relative;
+        }
+
+        .modal-overlay.active .modal {
+            transform: translateY(0);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.75rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            z-index: 10;
+            transition: var(--transition-fast);
+        }
+        .modal-close:hover {
+            color: var(--text-primary);
+        }
+
+        .modal-banner {
+            height: 120px;
+            background-image: linear-gradient(135deg, var(--accent-primary), var(--accent-highlight));
+            opacity: 0.8;
+            padding: 1.5rem;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            color: white;
+            font-family: var(--title-font-family);
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .modal-content {
+            padding: 2rem;
+            position: relative;
+        }
+        
+        .modal-content h2 {
+            font-family: var(--title-font-family);
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+        }
+        
+        .chapter-list {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+        
+        .chapter-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+            margin-bottom: 0.75rem;
+            background-color: var(--bg-tertiary);
+        }
+        
+        .chapter-item-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .chapter-icon {
+            color: var(--accent-highlight);
+            font-size: 1.25rem;
+        }
+        
+        .chapter-item-info span {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        
+        .chapter-status {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* * ==============================================
+         * 8. RESPONSIVENESS
+         * ==============================================
+         */
+        @media (max-width: 1200px) {
+            .page-layout {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            .sidebar {
+                position: relative;
+                top: 0;
+                height: auto;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0.5rem 1rem;
+            }
+            .nav-center {
+                display: none;
+            }
+            .main-content {
+                padding: 1rem;
+            }
+            .explore-header h1 {
+                font-size: 2rem;
+            }
+            .search-filters {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .filter-tabs {
+                width: 100%;
+                justify-content: space-around;
+            }
+            .explore-grid {
+                grid-template-columns: 1fr;
+            }
+            .modal {
+                margin: 1rem;
+            }
+        }
+    </style>
+</head>
+<body data-theme="light">
+
+    <!-- 1. Navbar (Using CodeArena style) -->
+    <nav class="navbar">
+        <a href="D:\The Create\About AlgoValut.html" class="nav-logo">
+            <i class="ph-fill ph-code-block"></i>
+            AlgoVault
+        </a>
+        <div class="nav-center">
+            <a href="D:\The Create\MN Home Page.html" class="nav-link">Home</a>
+            <a href="D:\The Create\MN Practice.html" class="nav-link">Practice</a>
+            <a href="D:\The Create\MN Explore.HTML" class="nav-link active">Problems</a>
+            <a href="D:\The Create\MN Discuss.html" class="nav-link">Discuss</a>
+        </div>
+        <div class="nav-right">
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+                <i class="ph ph-moon"></i>
+                <i class="ph ph-sun"></i>
+            </button>
+            
+            <!-- Profile Avatar Click Target -->
+            <img src="https://placehold.co/36x36/caa855/ffffff?text=MV" alt="Profile Avatar" class="profile-avatar" id="profile-avatar-btn">
+
+            <!-- Profile Popup Menu -->
+            <div class="profile-popup" id="profile-popup">
+                <div class="profile-info">
+                    <div class="avatar">M</div>
+                    <div class="profile-details">
+                        <h5>Manthan Vinzuda</h5>
+                        <p>m.vinzuda@algovault.dev</p>
+                    </div>
+                </div>
+                <div class="profile-menu">
+                    <a href="#"><i class="ph ph-user"></i> View Profile</a>
+                    <a href="#"><i class="ph ph-chart-line-up"></i> My Stats</a>
+                    <a href="#"><i class="ph ph-gear"></i> Settings</a>
+                    <a href="#" style="color: var(--difficulty-hard);"><i class="ph ph-sign-out"></i> Sign Out</a>
+                </div>
+            </div>
+            
+        </div>
+    </nav>
+
+    <!-- 2. Main Content -->
+    <main class="main-content">
+
+        <!-- Header and Filters -->
+        <header class="explore-header">
+            <h1>📚 Explore Learning Paths</h1>
+            <p>Master every topic — one calm, focused path at a time.</p>
+            
+            <!-- Filter Tabs -->
+            <div class="search-filters">
+                <div class="search-bar">
+                    <i class="ph ph-magnifying-glass" style="font-size: 1.125rem;"></i>
+                    <input type="text" class="search-input" placeholder="Search topics, paths, or problems...">
+                </div>
+                
+                <div class="filter-tabs">
+                    <!-- Data-filter attribute matches data-category on cards -->
+                    <button class="filter-tab active" data-filter="all">All</button>
+                    <button class="filter-tab" data-filter="dsa">DSA</button>
+                    <button class="filter-tab" data-filter="algorithms">Algorithms</button>
+                    <button class="filter-tab" data-filter="system">System Design</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Page Layout: Grid + Sidebar -->
+        <div class="page-layout">
+
+            <!-- 3. Explore Cards Grid -->
+            <section class="explore-grid" id="explore-grid">
+
+                <!-- Card 1: Dynamic Programming (DSA, Algorithms) -->
+                <article class="explore-card" data-modal-target="dp-101" data-category="dsa algorithms">
+                    <div class="card-banner" data-subject="dp">
+                        <i class="ph ph-code-simple-fill"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Dynamic Programming 101</h3>
+                        <p>Learn the fundamental concepts of DP from scratch.</p>
+                        <div class="card-tags">
+                            <span class="tag">Beginner</span>
+                            <span class="tag">DSA</span>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar-inner" style="width: 40%;"></div>
+                        </div>
+                        <button class="btn btn-primary card-btn">Continue Learning</button>
+                    </div>
+                </article>
+
+                <!-- Card 2: Advanced Graph Algorithms (DSA, Algorithms) -->
+                <article class="explore-card" data-modal-target="graph-adv" data-category="dsa algorithms">
+                    <div class="card-banner" data-subject="graphs">
+                         <i class="ph ph-chart-donut-fill"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Advanced Graph Algorithms</h3>
+                        <p>Master Dijkstra, Bellman-Ford, and flow networks.</p>
+                        <div class="card-tags">
+                            <span class="tag">Advanced</span>
+                            <span class="tag">Graphs</span>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar-inner" style="width: 15%;"></div>
+                        </div>
+                        <button class="btn btn-primary card-btn">Start Learning</button>
+                    </div>
+                </article>
+
+                <!-- Card 3: SQL Masterclass (DSA) -->
+                <article class="explore-card" data-modal-target="sql-master" data-category="dsa">
+                    <div class="card-banner" data-subject="sql">
+                        <i class="ph ph-database-fill"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>SQL Masterclass</h3>
+                        <p>From simple SELECT queries to complex joins and subqueries.</p>
+                        <div class="card-tags">
+                            <span class="tag">Intermediate</span>
+                            <span class="tag">Database</span>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar-inner" style="width: 75%;"></div>
+                        </div>
+                        <button class="btn btn-primary card-btn">Continue Learning</button>
+                    </div>
+                </article>
+                
+                <!-- Card 4: Binary Search Deep Dive (Algorithms) -->
+                <article class="explore-card" data-modal-target="binary-deep" data-category="algorithms">
+                    <div class="card-banner" data-subject="binary">
+                        <i class="ph ph-magnifying-glass-plus-fill"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Binary Search Deep Dive</h3>
+                        <p>Explore variations and common pitfalls of binary search.</p>
+                        <div class="card-tags">
+                            <span class="tag">Beginner</span>
+                            <span class="tag">Algorithms</span>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar-inner" style="width: 0%;"></div>
+                        </div>
+                        <button class="btn btn-primary card-btn">Start Learning</button>
+                    </div>
+                </article>
+
+                <!-- Card 5: System Design Basics (System Design) -->
+                <article class="explore-card" data-modal-target="sys-design" data-category="system">
+                    <div class="card-banner" data-subject="system">
+                        <i class="ph ph-hard-drives-fill"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>System Design Basics</h3>
+                        <p>Introduction to scaling, caching, and distributed systems.</p>
+                        <div class="card-tags">
+                            <span class="tag">Intermediate</span>
+                            <span class="tag">System Design</span>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar-inner" style="width: 10%;"></div>
+                        </div>
+                        <button class="btn btn-primary card-btn">Start Learning</button>
+                    </div>
+                </article>
+
+                <!-- Card 6: Two Pointers Technique (Algorithms) -->
+                <article class="explore-card" data-modal-target="pointers-tech" data-category="algorithms">
+                    <div class="card-banner" data-subject="pointers">
+                        <i class="ph ph-arrows-out-line-horizontal-fill"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Two Pointers Technique</h3>
+                        <p>Solve array and string problems efficiently using two pointers.</p>
+                        <div class="card-tags">
+                            <span class="tag">Beginner</span>
+                            <span class="tag">Algorithms</span>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar-inner" style="width: 60%;"></div>
+                        </div>
+                        <button class="btn btn-primary card-btn">Continue Learning</button>
+                    </div>
+                </article>
+
+                 <!-- Card 7: Heap Data Structure (DSA) -->
+                <article class="explore-card" data-modal-target="heap-ds" data-category="dsa">
+                    <div class="card-banner" data-subject="heap">
+                        <i class="ph ph-fire-extinguisher-fill"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Heap Data Structure</h3>
+                        <p>Master Priority Queues and solve k-th largest element problems.</p>
+                        <div class="card-tags">
+                            <span class="tag">Intermediate</span>
+                            <span class="tag">DSA</span>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar-inner" style="width: 25%;"></div>
+                        </div>
+                        <button class="btn btn-primary card-btn">Start Learning</button>
+                    </div>
+                </article>
+                
+            </section>
+
+            <!-- 4. Sidebar -->
+            <aside class="sidebar">
+                <div class="sidebar-widget">
+                    <h4>Recommended Paths</h4>
+                    
+                    <a class="recommend-card">
+                        <div class="recommend-icon"><i class="ph ph-chart-bar-horizontal-fill"></i></div>
+                        <div class="recommend-info">
+                            <h5>Data Structures</h5>
+                            <p>The complete guide to foundational topics.</p>
+                        </div>
+                    </a>
+                    
+                    <a class="recommend-card">
+                        <div class="recommend-icon"><i class="ph ph-brain-fill"></i></div>
+                        <div class="recommend-info">
+                            <h5>Algorithm Foundations</h5>
+                            <p>Core logic from sorting to recursion.</p>
+                        </div>
+                    </a>
+                    
+                    <a class="recommend-card">
+                        <div class="recommend-icon"><i class="ph ph-database-fill"></i></div>
+                        <div class="recommend-info">
+                            <h5>SQL Challenge</h5>
+                            <p>Test your advanced query skills.</p>
+                        </div>
+                    </a>
+                </div>
+                
+                <div class="sidebar-widget">
+                    <h4>Quick Access</h4>
+                    <div class="quick-links">
+                        <a href="#" class="quick-link">
+                            <div class="icon-box"><i class="ph ph-calendar"></i></div>
+                            <span>Daily</span>
+                        </a>
+                        <a href="#" class="quick-link">
+                            <div class="icon-box"><i class="ph ph-chats"></i></div>
+                            <span>Discuss</span>
+                        </a>
+                        <a href="#" class="quick-link">
+                            <div class="icon-box"><i class="ph ph-trophy"></i></div>
+                            <span>Contests</span>
+                        </a>
+                        <a href="#" class="quick-link">
+                            <div class="icon-box"><i class="ph ph-books"></i></div>
+                            <span>Tutorials</span>
+                        </a>
+                    </div>
+                </div>
+            </aside>
+
+        </div>
+    </main>
+
+    <!-- 5. Modal -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal" id="learning-modal">
+            <button class="modal-close" id="modal-close-btn">&times;</button>
+            
+            <div class="modal-banner">DP 101</div>
+            
+            <div class="modal-content">
+                <h2>Dynamic Programming 101</h2>
+                
+                <ul class="chapter-list">
+                    <li class="chapter-item">
+                        <div class="chapter-item-info">
+                            <i class="chapter-icon ph ph-play-circle-fill"></i>
+                            <span>Introduction to DP</span>
+                        </div>
+                        <span class="chapter-status" style="color: var(--difficulty-easy);">Completed</span>
+                    </li>
+                    <li class="chapter-item">
+                        <div class="chapter-item-info">
+                            <i class="chapter-icon ph ph-play-circle-fill"></i>
+                            <span>Memoization (Top-Down)</span>
+                        </div>
+                        <span class="chapter-status">20:15 Left</span>
+                    </li>
+                    <li class="chapter-item">
+                        <div class="chapter-item-info">
+                            <i class="chapter-icon ph ph-lock-key-fill"></i>
+                            <span>Tabulation (Bottom-Up)</span>
+                        </div>
+                        <span class="chapter-status">Locked</span>
+                    </li>
+                </ul>
+                
+                <button class="btn btn-primary">Continue Path</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 6. Embedded JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- Get All Elements ---
+            const body = document.body;
+            const themeToggle = document.getElementById('theme-toggle');
+            const profileAvatarBtn = document.getElementById('profile-avatar-btn');
+            const profilePopup = document.getElementById('profile-popup');
+            const modalOverlay = document.getElementById('modal-overlay');
+            const modalCloseBtn = document.getElementById('modal-close-btn');
+            const cardButtons = document.querySelectorAll('.card-btn');
+            const filterTabs = document.querySelectorAll('.filter-tab');
+            const exploreCards = document.querySelectorAll('.explore-card');
+            
+            // --- 1. Theme Toggling & Local Storage (Consistent with Practice Page) ---
+            const currentTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            // Set initial theme
+            if (currentTheme) {
+                body.dataset.theme = currentTheme;
+            } else if (prefersDark) {
+                body.dataset.theme = 'dark';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                body.dataset.theme = 'light';
+            }
+
+            // Add click listener
+            themeToggle.addEventListener('click', () => {
+                const newTheme = body.dataset.theme === 'light' ? 'dark' : 'light';
+                body.dataset.theme = newTheme;
+                localStorage.setItem('theme', newTheme);
+            });
+
+            // --- 2. Profile Pop-up Functionality ---
+            profileAvatarBtn.addEventListener('click', (e) => {
+                e.stopPropagation(); // Prevent the body click listener from immediately closing it
+                profilePopup.classList.toggle('active');
+            });
+            
+            // Close profile pop-up when clicking anywhere else
+            document.addEventListener('click', (e) => {
+                if (profilePopup.classList.contains('active') && !profilePopup.contains(e.target) && e.target !== profileAvatarBtn) {
+                    profilePopup.classList.remove('active');
+                }
+            });
+
+
+            // --- 3. Modal Functionality ---
+
+            function openModal() {
+                modalOverlay.classList.add('active');
+            }
+
+            function closeModal() {
+                modalOverlay.classList.remove('active');
+            }
+
+            // Open Modal via "Start Learning" button
+            cardButtons.forEach(button => {
+                button.addEventListener('click', openModal);
+            });
+            
+            // Open Modal via clicking the card itself
+            document.querySelectorAll('.explore-card').forEach(card => {
+                // Prevent opening if click originated from the button inside the card
+                card.addEventListener('click', (e) => {
+                    if (!e.target.closest('.card-btn')) {
+                        openModal();
+                    }
+                });
+            });
+
+            // Close Modal listeners
+            modalCloseBtn.addEventListener('click', closeModal);
+            modalOverlay.addEventListener('click', (e) => {
+                if (e.target === modalOverlay) {
+                    closeModal();
+                }
+            });
+            
+            // --- 4. Filtering Functionality ---
+            
+            function filterCards(filter) {
+                exploreCards.forEach(card => {
+                    const categories = card.getAttribute('data-category');
+                    
+                    if (filter === 'all' || categories.includes(filter)) {
+                        card.classList.remove('hidden');
+                        card.style.display = 'block'; // Make sure the layout updates
+                    } else {
+                        card.classList.add('hidden');
+                        // Temporarily hide, CSS transition handles opacity/scale
+                        setTimeout(() => {
+                            card.style.display = 'none';
+                        }, 500); 
+                    }
+                });
+            }
+
+            filterTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const filterValue = tab.getAttribute('data-filter');
+                    
+                    // Update active tab styling
+                    filterTabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    
+                    filterCards(filterValue);
+                });
+            });
+
+            // Initial filter call (show all)
+            filterCards('all');
+
+        });
+    </script>
+</body>
+</html>

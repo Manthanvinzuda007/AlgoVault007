@@ -1,0 +1,1739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Leaderboard | AlgoVault</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <style>
+        /* * ==============================================
+         * 1. CSS VARIABLES (THEME: Cozy Study / Blue & Gold)
+         * ==============================================
+         */
+        :root {
+            --font-family: 'Inter', sans-serif;
+            --title-font-family: 'Playfair Display', serif;
+            
+            /* --- COZY STUDY COLORS --- */
+            --primary-blue: #436b95; /* Main Accent */
+            --accent-gold: #caa855; /* Highlight Accent */
+            --dark-text: #2b2f36;
+
+            /* Light Mode */
+            --bg-primary-light: #f7f9fb;      /* Page background */
+            --bg-secondary-light: #ffffff;      /* Card/Navbar background */
+            --bg-tertiary-light: #e7eef4;      /* Input/Hover/Alt background */
+            --text-primary-light: var(--dark-text);     /* Body text */
+            --text-secondary-light: #59626d;    /* Muted text */
+            --text-muted-light: #868e96;        /* More muted text */
+            --border-color-light: #d0d7de;      /* Softer Borders */
+            --shadow-color-light: rgba(0, 0, 0, 0.05);
+
+            /* Dark Mode */
+            --bg-primary-dark: #121821;         /* Page background */
+            --bg-secondary-dark: #1f2937;        /* Card/Navbar background */
+            --bg-tertiary-dark: #374151;         /* Input/Hover background */
+            --text-primary-dark: #e5e7eb;       /* Body text */
+            --text-secondary-dark: #a0a0a0;     /* Muted text */
+            --text-muted-dark: #707070;         /* More muted text */
+            --border-color-dark: #374151;       /* Borders */
+            --shadow-color-dark: rgba(0, 0, 0, 0.4);
+            
+            /* Accent Mapping */
+            --accent-primary: var(--primary-blue);           /* Deep Blue */
+            --accent-primary-hover: #33587e;
+            --accent-highlight: var(--accent-gold);          /* Gold Accent */
+            
+            --accent-silver: #a1a1aa; 
+            --accent-bronze: #b45309; 
+
+            /* Sizing & Radius */
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --shadow-sm: 0 1px 3px var(--shadow-color);
+            --shadow-md: 0 5px 15px var(--shadow-color);
+            --shadow-lg: 0 10px 30px var(--shadow-color);
+            
+            /* Transitions */
+            --transition-all: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Apply themes via data attribute (Replacing .light-theme/.dark-theme classes) */
+        body[data-theme="light"] {
+            --bg-primary: var(--bg-primary-light);
+            --bg-secondary: var(--bg-secondary-light);
+            --bg-tertiary: var(--bg-tertiary-light);
+            --bg-hover: var(--bg-tertiary-light); /* Use tertiary for general hover */
+            --text-primary: var(--text-primary-light);
+            --text-secondary: var(--text-secondary-light);
+            --border-color: var(--border-color-light);
+        }
+
+        body[data-theme="dark"] {
+            --bg-primary: var(--bg-primary-dark);
+            --bg-secondary: var(--bg-secondary-dark);
+            --bg-tertiary: var(--bg-tertiary-dark);
+            --bg-hover: var(--bg-tertiary-dark); /* Use tertiary for general hover */
+            --text-primary: var(--text-primary-dark);
+            --text-secondary: var(--text-secondary-dark);
+            --border-color: var(--border-color-dark);
+        }
+
+        /* * ==============================================
+         * 2. BASE & RESET STYLES
+         * ==============================================
+         */
+        
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            margin: 0;
+            padding-top: 70px;
+            transition: var(--transition-all);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            position: relative; 
+            overflow-x: hidden;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--title-font-family); /* Use Playfair for titles */
+            color: var(--text-primary);
+            font-weight: 600;
+            margin-top: 0;
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        a {
+            color: var(--accent-primary);
+            text-decoration: none;
+            transition: var(--transition-all);
+        }
+        a:hover {
+            color: var(--accent-primary-hover);
+        }
+        
+        i.ph {
+            font-size: 1.25rem;
+            line-height: 1;
+        }
+        
+        /* * ==============================================
+         * 3. TOP NAVBAR (Refined for Theme)
+         * ==============================================
+         */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background-color: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+            padding: 0 1.5rem;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* Initial animation */
+            transform: translateY(-100%);
+            animation: slide-down 0.5s 0.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes slide-down {
+            to { transform: translateY(0); }
+        }
+
+        .navbar-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 1400px;
+        }
+
+        .logo {
+            font-family: var(--title-font-family);
+            font-size: 1.7rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .logo i {
+             color: var(--accent-highlight);
+             font-size: 1.8rem;
+             margin-right: 0.25rem;
+             vertical-align: middle;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .nav-links a {
+            padding: 0.5rem 1rem;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            border-radius: var(--radius-md);
+            transition: var(--transition-all);
+            position: relative;
+        }
+        .nav-links a.active {
+            background-color: var(--bg-tertiary);
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+        .nav-links a:hover:not(.active) {
+            background-color: var(--bg-hover);
+            color: var(--text-primary);
+        }
+        
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .theme-toggle {
+            width: 36px; height: 36px;
+            border: none;
+            background-color: var(--bg-tertiary);
+            color: var(--text-secondary);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: var(--transition-all);
+            font-size: 1.1rem;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .theme-toggle:hover {
+            background-color: var(--border-color);
+            color: var(--text-primary);
+        }
+        .theme-toggle .ph-sun { display: none; }
+        body[data-theme="dark"] .theme-toggle .ph-sun { display: block; }
+        body[data-theme="dark"] .theme-toggle .ph-moon { display: none; }
+
+        .user-avatar-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--bg-tertiary);
+            border: 2px solid var(--accent-highlight); /* Gold accent border */
+            cursor: pointer;
+            object-fit: cover;
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            user-select: none;
+            padding: 0;
+            transition: var(--transition-all);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .user-avatar-btn:hover {
+             transform: scale(1.05);
+             box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+
+        /* * ==============================================
+         * 4. MAIN CONTENT LAYOUT
+         * ==============================================
+         */
+        .main-content {
+            padding: 2rem 1.5rem;
+            position: relative;
+            z-index: 1; /* Main content is above the removed floating elements */
+        }
+        .content-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2; 
+        }
+        .leaderboard-main {
+            flex: 3;
+            min-width: 0;
+        }
+        .sidebar-stats {
+            flex: 1;
+            min-width: 280px;
+            position: sticky;
+            top: 90px;
+            align-self: flex-start;
+        }
+
+        /* * ==============================================
+         * 5. LEADERBOARD HEADER & CONTROLS
+         * ==============================================
+         */
+        .leaderboard-header {
+            background-color: var(--bg-secondary);
+            padding: 1.5rem;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-md);
+            margin-bottom: 2rem;
+        }
+        .leaderboard-header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            font-family: var(--title-font-family);
+            color: var(--accent-primary);
+        }
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .search-container {
+            position: relative;
+            flex-grow: 1;
+        }
+        .search-container i {
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+        #search-input {
+            width: 100%;
+            padding: 0.75rem 0.75rem 0.75rem 2.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            background-color: var(--bg-tertiary); /* Use tertiary for input background */
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            transition: var(--transition-all);
+        }
+        #search-input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 2px rgba(67, 107, 149, 0.25);
+            background-color: var(--bg-secondary);
+        }
+
+        .filter-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .filter-tabs button {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 0.6rem 1rem;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: var(--transition-all);
+        }
+        .filter-tabs button:hover {
+            background-color: var(--bg-hover);
+            color: var(--text-primary);
+        }
+        .filter-tabs button.active {
+            background-color: var(--accent-primary);
+            border-color: var(--accent-primary);
+            color: white;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        /* * ==============================================
+         * 6. TOP 3 CARDS
+         * ==============================================
+         */
+        .top-three-cards {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        .top-card {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 2rem 1.5rem 1.5rem;
+            text-align: center;
+            width: 280px;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition-all);
+            position: relative;
+            z-index: 10; 
+        }
+        .top-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .top-card .rank-icon {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bg-secondary);
+            border-radius: 50%;
+            padding: 0.75rem;
+            box-shadow: var(--shadow-md);
+            line-height: 0;
+            border: 3px solid transparent;
+            transition: transform 0.3s ease-out; 
+            animation: subtle-wiggle 4s ease-in-out infinite; 
+        }
+        .top-card .rank-icon i {
+            font-size: 1.5rem;
+        }
+
+        .top-card .avatar {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            margin: 1.5rem auto 1rem;
+            background: var(--bg-tertiary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 2rem;
+            font-weight: 600;
+            border: 3px solid transparent;
+        }
+        .top-card h3 {
+            font-size: 1.4rem;
+            margin: 0;
+        }
+        .top-card .points {
+            font-size: 1.0rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin-top: 0.25rem;
+        }
+        
+        @keyframes subtle-wiggle {
+            0%, 100% { transform: translateX(-50%) rotate(0deg); }
+            25% { transform: translateX(-50%) rotate(-1deg); }
+            75% { transform: translateX(-50%) rotate(1deg); }
+        }
+
+        /* Card-specific ranks */
+        .top-card.rank-1 {
+            order: 2;
+            transform: scale(1.1) translateY(-10px);
+            border-color: var(--accent-highlight);
+            z-index: 11;
+            box-shadow: 0 0 20px rgba(202, 168, 85, 0.4); 
+            animation: pulse-gold 2s infinite alternate ease-in-out; 
+        }
+        .top-card.rank-1:hover {
+            transform: scale(1.1) translateY(-15px);
+        }
+        .top-card.rank-1 .rank-icon { 
+            animation: none;
+            transform: translateX(-50%); 
+            color: var(--accent-highlight); 
+            border-color: var(--accent-highlight);
+            background: linear-gradient(135deg, var(--accent-highlight), #e6c368);
+            color: white;
+            box-shadow: 0 4px 10px rgba(202, 168, 85, 0.4);
+        }
+        .top-card.rank-1 .avatar { border-color: var(--accent-highlight); }
+        .top-card.rank-2 { order: 1; }
+        .top-card.rank-2 .rank-icon { color: var(--accent-silver); border-color: var(--accent-silver); }
+        .top-card.rank-3 { order: 3; }
+        .top-card.rank-3 .rank-icon { color: var(--accent-bronze); border-color: var(--accent-bronze); }
+        
+        @keyframes pulse-gold {
+            0% { box-shadow: 0 0 10px rgba(202, 168, 85, 0.3), 0 10px 30px var(--shadow-color); }
+            100% { box-shadow: 0 0 25px rgba(202, 168, 85, 0.6), 0 12px 35px var(--shadow-color); }
+        }
+
+
+        /* * ==============================================
+         * 7. LEADERBOARD TABLE
+         * ==============================================
+         */
+        .leaderboard-table-container {
+            background-color: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+            position: relative;
+            min-height: 500px; 
+            z-index: 5;
+        }
+
+        .table-wrapper {
+            overflow-x: auto; 
+        }
+
+        .leaderboard-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px; 
+        }
+        .leaderboard-table th, 
+        .leaderboard-table td {
+            padding: 1rem 1.25rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+            white-space: nowrap;
+        }
+        .leaderboard-table th {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background-color: var(--bg-primary); /* Slightly different background for header */
+        }
+        .leaderboard-table tbody tr {
+            transition: background-color 0.2s ease;
+        }
+        .leaderboard-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+        .leaderboard-table tbody tr:hover {
+            background-color: var(--bg-hover);
+        }
+        .leaderboard-table tbody tr.current-user {
+            background-color: rgba(67, 107, 149, 0.1); /* Light blue highlight */
+            border-left: 5px solid var(--accent-primary);
+            font-weight: 600;
+        }
+        body[data-theme="dark"] .leaderboard-table tbody tr.current-user {
+            background-color: rgba(67, 107, 149, 0.2);
+        }
+
+        .user-cell {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .user-cell .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: var(--bg-tertiary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+        .user-cell .username {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        .user-cell .flag {
+            font-size: 1.25rem;
+        }
+
+        .rank {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            width: 50px;
+        }
+        /* Top 3 coloring */
+        .rank-1 .rank { color: var(--accent-highlight); }
+        .rank-2 .rank { color: var(--accent-silver); }
+        .rank-3 .rank { color: var(--accent-bronze); }
+        .rank i.ph {
+            vertical-align: sub;
+            margin-right: 0.2rem;
+            font-size: 1.2rem;
+        }
+
+        .points {
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: var(--accent-primary);
+        }
+        
+        /* * ==============================================
+         * 8. SIDEBAR STATS
+         * ==============================================
+         */
+        .sidebar-stats h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .stat-card {
+            background-color: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            box-shadow: var(--shadow-sm);
+        }
+        .stat-card .label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.25rem;
+        }
+        .stat-card .value {
+            font-family: var(--title-font-family);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-highlight); /* Use Gold for key numbers */
+        }
+        .stat-card .value.blue {
+            color: var(--accent-primary);
+        }
+        .stat-card .value .rank-suffix {
+            font-family: var(--font-family);
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-left: 0.25rem;
+        }
+
+        .progress-graph-container {
+            background-color: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: var(--shadow-sm);
+        }
+        .progress-graph-container h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .graph {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            height: 120px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+        .bar-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .bar {
+            width: 20px;
+            background-color: var(--accent-primary);
+            border-radius: 4px 4px 0 0;
+            animation: grow-bar 1s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+            transform-origin: bottom;
+            transform: scaleY(0);
+        }
+        .bar-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        @keyframes grow-bar {
+            to {
+                transform: scaleY(1);
+            }
+        }
+
+        .profile-button {
+            width: 100%;
+            background-color: var(--accent-primary);
+            color: white;
+            border: none;
+            padding: 0.85rem 1rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition-all);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 10px rgba(67, 107, 149, 0.3);
+            margin-bottom: 1.5rem;
+        }
+        .profile-button:hover {
+            background-color: var(--accent-primary-hover);
+            box-shadow: 0 6px 15px rgba(67, 107, 149, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .quote {
+            font-family: var(--title-font-family);
+            font-size: 1rem;
+            color: var(--text-secondary);
+            text-align: center;
+            font-style: italic;
+        }
+
+        /* * ==============================================
+         * 9. LOADING SKELETON
+         * ==============================================
+         */
+        .loading-skeleton {
+            position: absolute;
+            top: 55px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            padding: 0 1.25rem;
+            display: none;
+            z-index: 4;
+        }
+        .loading-skeleton.visible {
+            display: block;
+        }
+        .skeleton-row {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .skeleton-item {
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-md);
+            position: relative;
+            overflow: hidden;
+        }
+        .skeleton-item::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, var(--bg-secondary), transparent);
+            animation: shimmer 1.5s infinite linear;
+        }
+        .skel-rank { width: 36px; height: 36px; border-radius: 50%; }
+        .skel-avatar { width: 36px; height: 36px; border-radius: 50%; }
+        .skel-text { height: 20px; flex-grow: 1; max-width: 150px; }
+        .skel-text-long { height: 20px; flex-grow: 2; max-width: 250px; }
+        .skel-text-short { height: 20px; flex-grow: 1; max-width: 80px; }
+        
+        @keyframes shimmer {
+            from { left: -100%; }
+            to { left: 100%; }
+        }
+
+        /* * ==============================================
+         * 10. PAGINATION
+         * ==============================================
+         */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+            background-color: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            border-bottom-left-radius: var(--radius-lg);
+            border-bottom-right-radius: var(--radius-lg);
+            z-index: 5;
+        }
+        .pagination button {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            margin: 0 0.25rem;
+            padding: 0;
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: var(--transition-all);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .pagination button:hover {
+            background-color: var(--bg-hover);
+            color: var(--text-primary);
+        }
+        .pagination button.active {
+            background-color: var(--accent-primary);
+            border-color: var(--accent-primary);
+            color: white;
+            box-shadow: var(--shadow-sm);
+        }
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background: var(--bg-primary);
+        }
+        .pagination button.ellipsis {
+            border: none;
+            background: none;
+            cursor: default;
+        }
+
+        /* * ==============================================
+         * 11. PROFILE MODAL (Pop-up)
+         * ==============================================
+         */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 2000; /* Above everything else */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4); /* Dark overlay */
+            backdrop-filter: blur(5px); /* Blur background for effect */
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.open {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background-color: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            width: 90%;
+            max-width: 600px;
+            position: relative;
+            animation: slide-up 0.3s ease-out;
+            padding: 2rem;
+            border: 2px solid var(--accent-primary);
+        }
+        
+        @keyframes slide-up {
+            from { transform: translateY(50px); opacity: 0.5; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .close-btn {
+            color: var(--text-secondary);
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition-all);
+            background: none;
+            border: none;
+            padding: 5px;
+        }
+        .close-btn:hover {
+            color: var(--accent-gold); /* Changed to gold for consistency */
+            transform: rotate(90deg);
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-highlight));
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            font-weight: 700;
+            box-shadow: 0 0 15px rgba(202, 168, 85, 0.5);
+        }
+        .profile-header h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-details p {
+            font-size: 1rem;
+            margin: 0.5rem 0;
+            color: var(--text-primary);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .profile-details p span {
+            color: var(--text-secondary);
+            font-weight: 400;
+            margin-left: 5px;
+        }
+        .profile-details i {
+            color: var(--accent-primary);
+        }
+
+        .profile-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+            text-align: center;
+            margin-top: 2rem;
+        }
+        .profile-stat-card {
+            background-color: var(--bg-tertiary);
+            padding: 1rem;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+        }
+        .profile-stat-card .value {
+            font-family: var(--title-font-family);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+            line-height: 1.2;
+        }
+        .profile-stat-card .label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+        }
+        
+        /* * ==============================================
+         * 12. RESPONSIVE DESIGN
+         * ==============================================
+         */
+        @media (min-width: 1024px) {
+            .content-wrapper {
+                flex-direction: row;
+            }
+            .controls {
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+            }
+            .search-container {
+                max-width: 350px;
+            }
+        }
+        
+        @media (max-width: 1023px) {
+            .sidebar-stats {
+                position: relative;
+                top: 0;
+                width: 100%;
+            }
+            .nav-links {
+                display: none;
+            }
+        }
+
+        @media (max-width: 767px) {
+            body {
+                padding-top: 70px;
+            }
+            .main-content {
+                padding: 1rem 0.5rem;
+            }
+            .navbar {
+                padding: 0 1rem;
+            }
+            .leaderboard-header {
+                padding: 1rem;
+            }
+            .top-three-cards {
+                flex-direction: column;
+                align-items: center;
+                gap: 2rem;
+            }
+            .top-card {
+                width: 90%;
+            }
+            .top-card.rank-1 {
+                order: 1;
+                transform: scale(1.05);
+            }
+            .top-card.rank-1:hover {
+                transform: scale(1.05) translateY(-5px);
+            }
+            .top-card.rank-2 { order: 2; }
+            .top-card.rank-3 { order: 3; }
+            .leaderboard-table th, 
+            .leaderboard-table td {
+                padding: 0.75rem 1rem;
+            }
+            .pagination button {
+                width: 36px;
+                height: 36px;
+                margin: 0 0.15rem;
+            }
+            .pagination .page-number {
+                display: none;
+            }
+            .pagination .page-number.active {
+                display: flex;
+            }
+            .profile-stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .modal-content {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body data-theme="light"> 
+
+    <!-- SVG Icons Definitions (using Phosphor Icons where possible) -->
+    <svg width="0" height="0" style="display:none;">
+        <symbol id="icon-user" viewBox="0 0 256 256" fill="currentColor"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216ZM128,72a40,40,0,1,0,40,40A40,40,0,0,0,128,72Zm0,64a24,24,0,1,1,24-24A24,24,0,0,1,128,136Zm-32,32a72.16,72.16,0,0,1,64,0,8,8,0,0,1,0,14.65,80.1,80.1,0,0,0-64,0,8,8,0,0,1,0-14.65Z"></path></symbol>
+    </svg>
+
+    <!-- Section A: Top Navbar -->
+    <header class="navbar">
+        <div class="navbar-content">
+            <div class="logo">
+                <i class="ph-fill ph-code-block"></i>
+                AlgoVault
+            </div>
+            <nav class="nav-links">
+                <a href="D:\The Create\MN Practice.html">Problems</a>
+                <a href="D:\The Create\MN Explore.HTML" class="active">Explore</a>
+                <a href="D:\The Create\MN Discuss.html">Discuss</a>
+                <a href="#">Profile</a>
+            </nav>
+            <div class="nav-right">
+                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+                    <i class="ph ph-moon"></i>
+                    <i class="ph ph-sun"></i>
+                </button>
+                <!-- UPDATED: Profile button in the top right -->
+                <button class="user-avatar-btn" id="open-profile-from-nav" aria-label="Open User Profile">MV</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        
+        <div class="content-wrapper">
+            
+            <!-- Main Leaderboard Column -->
+            <div class="leaderboard-main">
+                
+                <!-- Section B: Leaderboard Header -->
+                <section class="leaderboard-header">
+                    <h1>Global Leaderboard</h1>
+                    <p>Track your coding performance, compare ranks, and stay motivated on your path to clarity.</p>
+                    <div class="controls">
+                        <div class="search-container">
+                            <i class="ph ph-magnifying-glass"></i>
+                            <input type="text" id="search-input" placeholder="Find user by name...">
+                        </div>
+                        <div class="filter-tabs" id="filter-tabs">
+                            <button class="active" data-filter="all">All Time</button>
+                            <button data-filter="week">This Week</button>
+                            <button data-filter="today">Today</button>
+                            <button data-filter="friends">Friends Only</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Bonus: Top 3 Cards -->
+                <section class="top-three-cards" id="top-three-cards">
+                    <!-- JS will populate this -->
+                </section>
+
+                <!-- Section C: Leaderboard Table -->
+                <section class="leaderboard-table-container">
+                    
+                    <!-- Loading Skeleton -->
+                    <div class="loading-skeleton" id="loading-skeleton">
+                        <!-- JS will generate 10 skeleton rows -->
+                    </div>
+
+                    <!-- Table Wrapper for horizontal scroll -->
+                    <div class="table-wrapper">
+                        <table class="leaderboard-table" id="leaderboard-table">
+                            <thead>
+                                <tr>
+                                    <th>Rank</th>
+                                    <th>Username</th>
+                                    <th>Solved</th>
+                                    <th>Accuracy</th>
+                                    <th>Streak</th>
+                                    <th>Points</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-body">
+                                <!-- JS will populate this -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="pagination" id="pagination">
+                        <!-- JS will populate this -->
+                    </div>
+                </section>
+            </div>
+
+            <!-- Section D: Right Sidebar -->
+            <aside class="sidebar-stats">
+                <h2>Your Progress Snapshot</h2>
+                
+                <div class="stat-card">
+                    <div class="label">Your Rank</div>
+                    <div class="value" id="user-rank">0 <span class="rank-suffix">/ 0</span></div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Total Solved</div>
+                    <div class="value blue" id="user-solved">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Current Streak</div>
+                    <div class="value" id="user-streak">0 <span class="rank-suffix">days</span></div>
+                </div>
+
+                <div class="progress-graph-container">
+                    <h3>Weekly Progress</h3>
+                    <div class="graph" id="progress-graph">
+                        <!-- JS will populate this -->
+                    </div>
+                </div>
+
+                <button class="profile-button" id="open-profile-modal-btn">
+                    <i class="ph ph-chart-bar-horizontal"></i>
+                    View Full Dashboard
+                </button>
+
+                <p class="quote">"Focus on the journey, the rank is just a milestone."</p>
+            </aside>
+        </div>
+    </main>
+    
+    <!-- Confetti Canvas -->
+    <div id="confetti-canvas"></div>
+    
+    <!-- Toast Notification -->
+    <div class="toast" id="toast-notification">Notification</div>
+
+    <!-- * ==============================================
+      * PROFILE MODAL
+      * ============================================== -->
+    <div id="profile-modal" class="modal">
+        <div class="modal-content">
+            <button class="close-btn" id="close-profile-modal-btn">&times;</button>
+            
+            <div class="profile-header">
+                <div class="profile-avatar" id="modal-user-initial">U</div>
+                <h2 id="modal-username">You (Rank #10)</h2>
+                
+                <!-- NEW: Name and Email Details -->
+                <div class="profile-details">
+                    <p><i class="ph ph-user-circle"></i> Name: <span id="modal-full-name">User Name</span></p>
+                    <p><i class="ph ph-envelope"></i> Email: <span id="modal-email">user@example.com</span></p>
+                </div>
+                
+                <p id="modal-user-bio" style="margin-top: 1rem; font-style: italic;"></p>
+            </div>
+
+            <div class="profile-stats-grid">
+                <div class="profile-stat-card">
+                    <div class="value" id="modal-total-solved">0</div>
+                    <div class="label">Problems Solved</div>
+                </div>
+                <div class="profile-stat-card">
+                    <div class="value" id="modal-total-points">0</div>
+                    <div class="label">Total Points</div>
+                </div>
+                <div class="profile-stat-card">
+                    <div class="value" id="modal-current-streak">0</div>
+                    <div class="label">Longest Streak (Days)</div>
+                </div>
+                <div class="profile-stat-card">
+                    <div class="value" id="modal-accuracy">0%</div>
+                    <div class="label">Overall Accuracy</div>
+                </div>
+                <div class="profile-stat-card">
+                    <div class="value">21</div>
+                    <div class="label">Languages Used</div>
+                </div>
+                <div class="profile-stat-card">
+                    <div class="value">Master</div>
+                    <div class="label">Current Tier</div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 2rem;">
+                <button class="profile-button" style="width: 50%; max-width: 300px; margin: 0 auto; background-color: var(--accent-highlight);">
+                    <i class="ph ph-user"></i> View Profile
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- All JavaScript is embedded in this tag -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- MOCK DATA ---
+            const allUserData = [
+                { rank: 1, username: 'Manthan', country: 'IN', solved: 1250, accuracy: 98.5, streak: 365, points: 154200 },
+                { rank: 2, username: 'Krishna', country: 'IN', solved: 1210, accuracy: 97.2, streak: 210, points: 149800 },
+                { rank: 3, username: 'Vinzuda', country: 'IN', solved: 1180, accuracy: 99.1, streak: 150, points: 145000 },
+                { rank: 4, username: 'DataClarity', country: '🇮🇳', solved: 1150, accuracy: 96.5, streak: 120, points: 142100 },
+                { rank: 5, username: 'SilentSolve', country: '🇨🇳', solved: 1120, accuracy: 95.0, streak: 90, points: 139500 },
+                { rank: 6, username: 'SyntaxPeace', country: '🇧🇷', solved: 1090, accuracy: 94.2, streak: 85, points: 135000 },
+                { rank: 7, username: 'KernelCalm', country: '🇷🇺', solved: 1050, accuracy: 93.1, streak: 70, points: 131200 },
+                { rank: 8, username: 'PythonPath', country: '🇬🇧', solved: 1020, accuracy: 92.5, streak: 65, points: 128900 },
+                { rank: 9, username: 'JavaJourney', country: '🇫🇷', solved: 990, accuracy: 91.0, streak: 50, points: 125000 },
+                // Logged-in user's data (added full name and email for modal)
+                { 
+                    rank: 10, 
+                    username: 'You', 
+                    fullName: 'Manthan Vinzuda',
+                    email: 'manthan.vinzuda@algovault.dev',
+                    country: '🇨🇦', 
+                    solved: 850, 
+                    accuracy: 88.5, 
+                    streak: 45, 
+                    points: 121300, 
+                    bio: "Focused on clean code and algorithmic mastery. Currently exploring Graph Theory." 
+                }, 
+                { rank: 11, username: 'ScriptSerenity', country: '🇦🇺', solved: 920, accuracy: 89.0, streak: 40, points: 118000 },
+                { rank: 12, username: 'MatrixMellow', country: '🇰🇷', solved: 890, accuracy: 88.2, streak: 35, points: 115200 },
+                { rank: 13, username: 'DebugDreamer', country: '🇪🇸', solved: 860, accuracy: 87.1, streak: 30, points: 112000 },
+                { rank: 14, username: 'CacheCool', country: '🇮🇹', solved: 830, accuracy: 86.5, streak: 25, points: 109500 },
+                { rank: 15, username: 'BinaryBreeze', country: '🇲🇽', solved: 800, accuracy: 85.0, streak: 20, points: 106000 },
+                { rank: 16, username: 'LoopLullaby', country: '🇳🇱', solved: 770, accuracy: 84.2, streak: 18, points: 103200 },
+                { rank: 17, username: 'GitGentle', country: '🇸🇪', solved: 740, accuracy: 83.1, streak: 15, points: 100000 },
+                { rank: 18, username: 'PointerPeace', country: '🇨🇭', solved: 710, accuracy: 82.5, streak: 12, points: 97800 },
+                { rank: 19, username: 'NodeNirvana', country: '🇵🇱', solved: 680, accuracy: 81.0, streak: 10, points: 95000 },
+                { rank: 20, username: 'CloudChill', country: '🇦🇷', solved: 650, accuracy: 80.5, streak: 8, points: 92300 },
+                { rank: 21, username: 'ArrayAura', country: '🇿🇦', solved: 620, accuracy: 79.0, streak: 7, points: 89000 },
+                { rank: 22, username: 'HashHarmony', country: '🇹🇷', solved: 590, accuracy: 78.2, streak: 6, points: 86200 },
+                { rank: 23, username: 'StreamStill', country: '🇳🇿', solved: 560, accuracy: 77.1, streak: 5, points: 83000 },
+                { rank: 24, username: 'VectorVibes', country: '🇮🇪', solved: 530, accuracy: 76.5, streak: 4, points: 80500 },
+                { rank: 25, username: 'QueryQuiet', country: '🇧🇪', solved: 500, accuracy: 75.0, streak: 3, points: 77000 },
+                { rank: 26, username: 'RecursiveRest', country: '🇦🇹', solved: 470, accuracy: 74.2, streak: 2, points: 74200 },
+                { rank: 27, username: 'MLMantra', country: '🇳🇴', solved: 440, accuracy: 73.1, streak: 1, points: 71000 },
+                { rank: 28, username: 'DevOpsDoze', country: '🇩🇰', solved: 410, accuracy: 72.5, streak: 1, points: 68800 },
+                { rank: 29, username: 'StateSilence', country: '🇫🇮', solved: 380, accuracy: 71.0, streak: 1, points: 65000 },
+                { rank: 30, username: 'WebWhisper', country: '🇵🇹', solved: 350, accuracy: 70.5, streak: 1, points: 62300 }
+            ];
+            
+            // Logged-in user's data 
+            const myUserStats = allUserData.find(u => u.username === 'You') || { 
+                rank: 99, solved: 0, streak: 0, points: 0, accuracy: 0, 
+                fullName: 'Guest User', email: 'guest@algovault.dev', bio: "Profile not set up." 
+            };
+            const myWeeklyProgress = [4, 7, 5, 9, 6, 8, 10]; // Solved per day
+            const weekDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+            // --- STATE ---
+            let currentData = [...allUserData.filter(u => u.username !== 'You')]; // Don't show "You" in main list
+            let currentPage = 1;
+            const rowsPerPage = 15;
+            let currentFilter = 'all';
+
+            // --- SELECTORS ---
+            const body = document.body;
+            const themeToggle = document.getElementById('theme-toggle');
+            const tableBody = document.getElementById('table-body');
+            const paginationContainer = document.getElementById('pagination');
+            const searchInput = document.getElementById('search-input');
+            const filterTabs = document.getElementById('filter-tabs');
+            const loadingSkeleton = document.getElementById('loading-skeleton');
+            const topThreeContainer = document.getElementById('top-three-cards');
+            const confettiCanvas = document.getElementById('confetti-canvas');
+            const toastEl = document.getElementById('toast-notification');
+            const profileModal = document.getElementById('profile-modal');
+            const openModalFromNavBtn = document.getElementById('open-profile-from-nav'); // New Nav Button
+            const openModalFromSidebarBtn = document.getElementById('open-profile-modal-btn'); // Existing Sidebar Button
+            const closeModalBtn = document.getElementById('close-profile-modal-btn');
+            
+            // Sidebar selectors
+            const userRankEl = document.getElementById('user-rank');
+            const userSolvedEl = document.getElementById('user-solved');
+            const userStreakEl = document.getElementById('user-streak');
+            const progressGraphEl = document.getElementById('progress-graph');
+
+            // --- MODAL FUNCTIONS ---
+            const openModal = () => {
+                // Populate modal with mock user data
+                document.getElementById('modal-user-initial').innerText = myUserStats.username.charAt(0);
+                document.getElementById('modal-username').innerText = `${myUserStats.username} (Rank #${myUserStats.rank})`;
+                
+                // NEW fields
+                document.getElementById('modal-full-name').innerText = myUserStats.fullName;
+                document.getElementById('modal-email').innerText = myUserStats.email;
+
+                document.getElementById('modal-user-bio').innerText = myUserStats.bio;
+                document.getElementById('modal-total-solved').innerText = myUserStats.solved.toLocaleString();
+                document.getElementById('modal-total-points').innerText = myUserStats.points.toLocaleString();
+                document.getElementById('modal-current-streak').innerText = myUserStats.streak;
+                document.getElementById('modal-accuracy').innerText = `${myUserStats.accuracy}%`;
+
+                profileModal.classList.add('open');
+                body.style.overflow = 'hidden'; // Prevent background scrolling
+            };
+
+            const closeModal = () => {
+                profileModal.classList.remove('open');
+                body.style.overflow = '';
+            };
+
+            // --- MODAL EVENT LISTENERS ---
+            openModalFromNavBtn.addEventListener('click', openModal); // New listener for Nav button
+            openModalFromSidebarBtn.addEventListener('click', openModal); // Existing listener for Sidebar button
+            closeModalBtn.addEventListener('click', closeModal);
+            
+            // Close modal when clicking outside of it
+            profileModal.addEventListener('click', (e) => {
+                if (e.target.id === 'profile-modal') {
+                    closeModal();
+                }
+            });
+            // Close modal with Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && profileModal.classList.contains('open')) {
+                    closeModal();
+                }
+            });
+
+
+            // --- TOAST NOTIFICATION ---
+            let toastTimer;
+            function showToast(message, type = 'info', duration = 3000) {
+                clearTimeout(toastTimer);
+                toastEl.textContent = message;
+                toastEl.className = 'toast show'; // Reset classes
+                
+                toastEl.style.backgroundColor = type === 'success' ? '#4caf50' : 
+                                               (type === 'error' ? '#f44336' : 'var(--accent-primary)');
+
+                toastTimer = setTimeout(() => {
+                    toastEl.classList.remove('show');
+                }, duration);
+            }
+
+            // --- THEME ---
+            const initTheme = () => {
+                const savedTheme = localStorage.getItem('leaderboardTheme');
+                const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                
+                if (savedTheme) {
+                    body.dataset.theme = savedTheme;
+                } else if (systemPrefersDark) {
+                    body.dataset.theme = 'dark';
+                } else {
+                    body.dataset.theme = 'light';
+                }
+            };
+
+            const toggleTheme = () => {
+                const newTheme = body.dataset.theme === 'light' ? 'dark' : 'light';
+                body.dataset.theme = newTheme;
+                localStorage.setItem('leaderboardTheme', newTheme);
+            };
+
+            themeToggle.addEventListener('click', toggleTheme);
+
+            // --- LOADING SKELETON ---
+            const showSkeleton = () => {
+                tableBody.innerHTML = '';
+                loadingSkeleton.innerHTML = '';
+                // Generate header row for spacing consistency
+                loadingSkeleton.innerHTML += `
+                    <div class="skeleton-row" style="opacity:0;">
+                        <div class="skeleton-item skel-rank"></div>
+                        <div class="skeleton-item skel-avatar"></div>
+                        <div class="skeleton-item skel-text-long"></div>
+                        <div class="skeleton-item skel-text-short"></div>
+                        <div class="skeleton-item skel-text-short"></div>
+                        <div class="skeleton-item skel-text-short"></div>
+                        <div class="skeleton-item skel-text"></div>
+                    </div>
+                `;
+                for (let i = 0; i < rowsPerPage; i++) {
+                    loadingSkeleton.innerHTML += `
+                        <div class="skeleton-row">
+                            <div class="skeleton-item skel-rank"></div>
+                            <div class="skeleton-item skel-avatar"></div>
+                            <div class="skeleton-item skel-text-long"></div>
+                            <div class="skeleton-item skel-text-short"></div>
+                            <div class="skeleton-item skel-text-short"></div>
+                            <div class="skeleton-item skel-text-short"></div>
+                            <div class="skeleton-item skel-text"></div>
+                        </div>
+                    `;
+                }
+                loadingSkeleton.classList.add('visible');
+            };
+
+            const hideSkeleton = () => {
+                loadingSkeleton.classList.remove('visible');
+            };
+            
+            // --- DEBOUNCE ---
+            const debounce = (func, delay) => {
+                let timeout;
+                return (...args) => {
+                    clearTimeout(timeout);
+                    timeout = setTimeout(() => {
+                        func.apply(this, args);
+                    }, delay);
+                };
+            };
+
+            // --- RENDER FUNCTIONS ---
+            
+            // Render Table
+            const displayData = () => {
+                showSkeleton();
+
+                // Simulate fetch delay
+                setTimeout(() => {
+                    tableBody.innerHTML = '';
+                    const start = (currentPage - 1) * rowsPerPage;
+                    const end = start + rowsPerPage;
+                    const paginatedData = currentData.slice(start, end);
+                    
+                    // Create a composite list including the user, if they are not in the current pagination range
+                    let finalData = [...paginatedData];
+                    
+                    // Check if the current user is ranked below the last displayed rank
+                    // And check if the user is not already in the main data array (which we filtered earlier, but just to be safe)
+                    const userRankIndex = allUserData.findIndex(u => u.username === 'You');
+
+                    // If user is not in the visible list AND their rank is within the table's total rank range
+                    if (!paginatedData.some(u => u.username === 'You') && (userRankIndex + 1) > rowsPerPage) {
+                        // Insert a placeholder row before adding the user's specific row if needed
+                        if (start + rowsPerPage < userRankIndex) {
+                            // Add a separator/placeholder if the user is far down the list
+                            // We choose not to add ellipsis rows for simplicity in this themed layout.
+                        }
+                        
+                        // Add the user's row if they are not visible in the current page
+                        if (userRankIndex >= end || userRankIndex < start) {
+                            const userRow = {...myUserStats, rank: userRankIndex + 1}; // Get actual rank from allUserData
+                            finalData.push(userRow);
+                        }
+                    }
+
+                    if (finalData.length === 0) {
+                        tableBody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 2rem; color: var(--text-secondary);">No users found for this filter.</td></tr>`;
+                    } else {
+                        // Sort the data to ensure correct display order, especially if 'You' was appended
+                        finalData.sort((a, b) => a.rank - b.rank);
+                        
+                        finalData.forEach(user => {
+                            const isCurrentUser = user.username === 'You';
+                            const tr = document.createElement('tr');
+                            tr.classList.add(`rank-${user.rank}`);
+                            if (isCurrentUser) tr.classList.add('current-user');
+
+                            const crownIcon = user.rank === 1 ? `<i class="ph-fill ph-crown"></i>` : '';
+                            const rankDisplay = isCurrentUser && user.rank > rowsPerPage && finalData.length > rowsPerPage ? 'You' : user.rank;
+                            
+                            // Simple avatar logic: first letter of username
+                            const userInitial = user.username.charAt(0);
+
+                            tr.innerHTML = `
+                                <td class="rank">
+                                    ${crownIcon}${rankDisplay}
+                                </td>
+                                <td>
+                                    <div class="user-cell">
+                                        <div class="avatar">${userInitial}</div>
+                                        <div>
+                                            <div class="username">${user.username}</div>
+                                        </div>
+                                        <span class="flag">${user.country}</span>
+                                    </div>
+                                </td>
+                                <td>${user.solved.toLocaleString()}</td>
+                                <td>${user.accuracy}%</td>
+                                <td>${user.streak} days</td>
+                                <td class="points">${user.points.toLocaleString()}</td>
+                            `;
+                            tableBody.appendChild(tr);
+                        });
+                    }
+                    
+                    hideSkeleton();
+                    setupPagination();
+                }, 500); // 500ms delay for visual feedback
+            };
+
+            // Render Pagination
+            const setupPagination = () => {
+                paginationContainer.innerHTML = '';
+                const totalItems = currentData.length;
+                const pageCount = Math.ceil(totalItems / rowsPerPage);
+                if (pageCount <= 1) return;
+
+                // Prev Button
+                const prevButton = document.createElement('button');
+                prevButton.innerHTML = `<i class="ph ph-caret-left"></i>`;
+                prevButton.disabled = currentPage === 1;
+                prevButton.addEventListener('click', () => {
+                    if (currentPage > 1) {
+                        currentPage--;
+                        displayData();
+                    }
+                });
+                paginationContainer.appendChild(prevButton);
+
+                // Page Number Buttons (simple visibility logic for mobile)
+                for (let i = 1; i <= pageCount; i++) {
+                    const pageButton = document.createElement('button');
+                    pageButton.innerText = i;
+                    pageButton.classList.add('page-number');
+                    if (i === currentPage) {
+                        pageButton.classList.add('active');
+                    }
+                    pageButton.addEventListener('click', () => {
+                        currentPage = i;
+                        displayData();
+                    }); 
+                    // Show dots or numbers smartly
+                    if (window.innerWidth > 767) {
+                        // Desktop: Show first, last, current, and neighbors
+                         if (i === 1 || i === pageCount || (i >= currentPage - 1 && i <= currentPage + 1)) {
+                             paginationContainer.appendChild(pageButton);
+                         } else if (i === currentPage - 2 || i === currentPage + 2) {
+                             const ellipsis = document.createElement('button');
+                             ellipsis.innerText = '...';
+                             ellipsis.disabled = true;
+                             ellipsis.classList.add('ellipsis');
+                             paginationContainer.appendChild(ellipsis);
+                         }
+                    } else {
+                        // Mobile: Only show active page number
+                        if (i === currentPage) {
+                            paginationContainer.appendChild(pageButton);
+                        }
+                    }
+                }
+
+                // Next Button
+                const nextButton = document.createElement('button');
+                nextButton.innerHTML = `<i class="ph ph-caret-right"></i>`;
+                nextButton.disabled = currentPage === pageCount;
+                nextButton.addEventListener('click', () => {
+                    if (currentPage < pageCount) {
+                        currentPage++;
+                        displayData();
+                    }
+                });
+                paginationContainer.appendChild(nextButton);
+            };
+
+            // Render Top 3
+            const displayTopThree = () => {
+                const top3 = allUserData.slice(0, 3);
+                topThreeContainer.innerHTML = '';
+                
+                top3.forEach(user => {
+                    let iconHTML = '';
+                    let rankText = '';
+
+                    // Phosphor Icons for the ranks
+                    if (user.rank === 1) {
+                        iconHTML = `<i class="ph-fill ph-crown-simple"></i>`;
+                        rankText = 'Gold';
+                    } else if (user.rank === 2) {
+                        iconHTML = `<i class="ph-fill ph-medal"></i>`;
+                        rankText = 'Silver';
+                    } else if (user.rank === 3) {
+                        iconHTML = `<i class="ph-fill ph-trophy"></i>`;
+                        rankText = 'Bronze';
+                    }
+                    
+                    const card = document.createElement('div');
+                    card.className = `top-card rank-${user.rank}`;
+                    card.innerHTML = `
+                        <div class="rank-icon" title="${rankText} Rank">${iconHTML}</div>
+                        <div class="avatar">${user.username.charAt(0)}</div>
+                        <h3>${user.username} <span class="flag">${user.country}</span></h3>
+                        <p class="points">${user.points.toLocaleString()} Points</p>
+                    `;
+                    topThreeContainer.appendChild(card);
+                });
+            };
+
+            // Render Sidebar
+            const displaySidebarStats = () => {
+                const totalUsers = allUserData.length;
+                const userRankIndex = allUserData.findIndex(u => u.username === 'You');
+
+                userRankEl.innerHTML = `${userRankIndex !== -1 ? userRankIndex + 1 : '-'} <span class="rank-suffix">/ ${totalUsers}</span>`;
+                userSolvedEl.innerText = myUserStats.solved.toLocaleString();
+                userStreakEl.innerHTML = `${myUserStats.streak} <span class="rank-suffix">days</span>`;
+
+                // Render graph
+                progressGraphEl.innerHTML = '';
+                const maxSolved = Math.max(...myWeeklyProgress);
+                myWeeklyProgress.forEach((val, i) => {
+                    const heightPercent = maxSolved > 0 ? (val / maxSolved) * 90 + 10 : 10; // Ensure min height of 10%
+                    progressGraphEl.innerHTML += `
+                        <div class="bar-container" title="${weekDays[i]}: ${val} solved">
+                            <div class="bar" style="height: ${heightPercent}%; animation-delay: ${i * 0.05}s"></div>
+                            <span class="bar-label">${weekDays[i].charAt(0)}</span>
+                        </div>
+                    `;
+                });
+            };
+
+            // --- EVENT HANDLERS ---
+            
+            // Search
+            const handleSearch = (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                const baseData = allUserData.filter(u => u.username !== 'You');
+
+                currentData = baseData
+                    .filter(user => user.username.toLowerCase().includes(searchTerm));
+                
+                // Re-rank the filtered data
+                currentData.forEach((user, index) => {
+                    user.rank = index + 1;
+                });
+                    
+                currentPage = 1;
+                displayData();
+            };
+
+            // Filters
+            const handleFilter = (e) => {
+                if (!e.target.matches('button')) return;
+                
+                // Update active button
+                filterTabs.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
+                e.target.classList.add('active');
+                
+                currentFilter = e.target.dataset.filter;
+                
+                // Simulate filtering
+                const baseData = allUserData.filter(u => u.username !== 'You');
+                let filteredList = baseData;
+                
+                switch (currentFilter) {
+                    case 'week':
+                        filteredList = [...baseData].sort(() => 0.5 - Math.random()).slice(0, 20);
+                        break;
+                    case 'today':
+                        filteredList = [...baseData].sort(() => 0.5 - Math.random()).slice(0, 10);
+                        break;
+                    case 'friends':
+                        // Just show a few users for "Friends"
+                        filteredList = baseData.filter(u => ['DataClarity', 'SyntaxPeace', 'PythonPath', 'JavaJourney'].includes(u.username));
+                        break;
+                    case 'all':
+                    default:
+                        filteredList = baseData;
+                }
+                
+                // Re-rank the filtered data
+                filteredList.forEach((user, index) => {
+                    user.rank = index + 1;
+                });
+                
+                currentData = filteredList;
+                currentPage = 1;
+                displayData();
+            };
+
+            // --- CONFETTI (BONUS) ---
+            const triggerConfetti = () => {
+                confettiCanvas.style.display = 'block';
+                const colorMap = [
+                    'var(--accent-highlight)', // Gold
+                    'var(--accent-silver)',   // Silver
+                    'var(--accent-bronze)',   // Bronze
+                    'var(--accent-primary)',  // Blue (general top rank)
+                    '#4caf50'                 // Green (success)
+                ];
+                
+                for (let i = 0; i < 120; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.classList.add('confetti');
+                    
+                    const rank = myUserStats.rank;
+                    let colorIndex = rank <= 3 ? rank - 1 : (rank <= 10 ? 3 : 4);
+                    confetti.style.backgroundColor = colorMap[colorIndex];
+                    
+                    confetti.style.left = `${Math.random() * 100}vw`;
+                    confetti.style.animationDelay = `${Math.random() * 2}s`;
+                    confetti.style.animationDuration = `${3 + Math.random() * 2}s`;
+                    confetti.style.setProperty('--random-x', Math.random() * 300 - 150);
+                    confettiCanvas.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 5000);
+                }
+                setTimeout(() => confettiCanvas.style.display = 'none', 5000);
+            };
+
+            // --- INITIALIZATION ---
+            initTheme();
+            displayTopThree();
+            displaySidebarStats();
+            displayData(); // Initial data load
+            
+            // Check for confetti on top 10 rank
+            if (myUserStats.rank <= 10) {
+                setTimeout(triggerConfetti, 1000);
+            }
+
+            // Attach listeners
+            searchInput.addEventListener('input', debounce(handleSearch, 300));
+            filterTabs.addEventListener('click', handleFilter);
+
+        });
+    </script>
+
+</body>
+</html>

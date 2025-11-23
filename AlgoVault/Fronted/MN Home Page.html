@@ -1,0 +1,1560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AlgoVault - Where Logic Meets Peace</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Inter:wght@400;500;600&family=Playfair+Display:ital@1&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ------------------------------------------------------------------
+        Global Styles & Variables
+        ------------------------------------------------------------------
+        */
+        :root {
+            --color-bg-gradient-start: #f7f9fb;
+            --color-bg-gradient-end: #e7eef4;
+            --color-primary-blue: #436b95;
+            --color-accent-gold: #caa855;
+            --color-text-main: #2b2f36;
+            --color-text-secondary: #59626d;
+            --color-dark-bg: #121821;
+            --color-white: #ffffff;
+            --color-light-gray: #fafafa;
+            
+            /* -- NEW: Cozy study colors based on prompt -- */
+            --color-study-wall: #f5f0e8; /* Warm cream/beige */
+            --color-study-floor: #c5a98f; /* Matte wood */
+            --color-study-wood: #a1887f; /* Bookshelf/Desk */
+            --color-study-sunlight: rgba(255, 213, 128, 0.15);
+            --color-study-sky: #cce6f4; /* Softer sky */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif; /* Updated to Inter for better readability */
+            color: var(--color-text-main);
+            background-image: linear-gradient(180deg, var(--color-bg-gradient-start), var(--color-bg-gradient-end));
+            line-height: 1.6;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+        /* ------------------------------------------------------------------
+        Navigation & Logo
+        ------------------------------------------------------------------
+        */
+        .navbar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--color-primary-blue);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            box-shadow: 0 4px 10px rgba(67, 107, 149, 0.3);
+        }
+
+        .logo-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-primary-blue);
+            letter-spacing: -0.5px;
+        }
+
+        /* ------------------------------------------------------------------
+        Utility & Reusable Classes
+        ------------------------------------------------------------------
+        */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        section {
+            padding: 100px 0;
+            overflow: hidden;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            text-align: center;
+            color: var(--color-text-main);
+            margin-bottom: 20px;
+        }
+
+        .title-underline {
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--color-primary-blue), var(--color-accent-gold));
+            margin: 0 auto 50px auto;
+            border-radius: 2px;
+        }
+
+        .btn {
+            display: inline-block;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            text-decoration: none;
+            padding: 12px 28px;
+            border-radius: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease-in-out;
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+
+        .btn-filled {
+            background-color: var(--color-primary-blue);
+            color: var(--color-white);
+            border-color: var(--color-primary-blue);
+        }
+
+        .btn-filled:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(67, 107, 149, 0.25);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--color-primary-blue);
+            border: 2px solid var(--color-primary-blue);
+        }
+
+        .btn-outline:hover {
+            transform: translateY(-3px);
+            background-color: rgba(67, 107, 149, 0.05);
+            box-shadow: 0 6px 15px rgba(67, 107, 149, 0.1);
+        }
+        
+        .btn-gradient {
+            background: linear-gradient(90deg, var(--color-primary-blue) 0%, #6392c3 100%);
+            color: var(--color-white);
+            border: none;
+        }
+        
+        .btn-gradient:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(67, 107, 149, 0.25);
+        }
+
+        /* --- NEW: Let's Goo Button Style --- */
+        .btn-lets-goo {
+            background: linear-gradient(135deg, var(--color-accent-gold), #e6c368);
+            color: var(--color-white);
+            font-weight: 700;
+            border: none;
+            position: relative;
+            overflow: hidden;
+            padding: 14px 32px;
+            font-size: 1rem;
+            box-shadow: 0 4px 15px rgba(202, 168, 85, 0.4);
+        }
+
+        .btn-lets-goo:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 8px 20px rgba(202, 168, 85, 0.5);
+        }
+
+        /* ------------------------------------------------------------------
+        Animation
+        ------------------------------------------------------------------
+        */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ------------------------------------------------------------------
+        Section 1: Hero
+        ------------------------------------------------------------------
+        */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: radial-gradient(circle, #f0f4f9 0%, var(--color-bg-gradient-end) 100%);
+            position: relative;
+        }
+
+        .hero-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding-top: 80px; /* Added padding for navbar */
+            padding-bottom: 60px;
+            gap: 30px; 
+        }
+
+        .hero-text {
+            flex-basis: 50%;
+            padding-right: 40px;
+            text-align: left;
+            z-index: 10;
+        }
+
+        .hero-text h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4.5rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            line-height: 1.1;
+            color: var(--color-text-main);
+            margin-bottom: 20px;
+        }
+
+        .hero-text .subtext {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.25rem;
+            color: var(--color-text-secondary);
+            margin-bottom: 35px;
+            max-width: 500px;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        /* --- HERO ILLUSTRATION: Cozy Study theme --- */
+
+        .hero-illustration {
+            flex-basis: 600px; 
+            flex-shrink: 0; 
+            position: relative;
+            min-height: 500px; 
+            background: var(--color-study-wall); 
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 20px;
+            max-width: 600px; 
+            overflow: hidden; 
+        }
+
+        .room-floor {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px; 
+            background: var(--color-study-floor); 
+            border-top: 4px solid var(--color-study-wood); 
+        }
+        /* Floorboards */
+        .room-floor::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: repeating-linear-gradient(90deg, 
+                rgba(0,0,0,0.05) 0px, 
+                rgba(0,0,0,0.05) 2px, 
+                transparent 2px, 
+                transparent 80px
+            );
+        }
+
+        /* Window */
+        .window-frame {
+            position: absolute;
+            top: 50px;
+            right: 40px; 
+            width: 200px; 
+            height: 250px; 
+            background: var(--color-study-sky); 
+            border: 8px solid var(--color-white);
+            border-radius: 4px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 4px;
+            padding: 4px;
+        }
+        .window-pane {
+            background: rgba(255, 255, 255, 0.3); 
+            border-radius: 2px;
+        }
+        .window-sill {
+            position: absolute;
+            bottom: -12px;
+            left: -12px;
+            width: calc(100% + 24px);
+            height: 8px;
+            background: var(--color-white);
+            border-radius: 2px;
+        }
+
+        /* Sunlight beam from window */
+        .sunlight-beam {
+            position: absolute;
+            top: -20px;
+            right: 100px;
+            width: 300px;
+            height: 100%;
+            background: linear-gradient(110deg, transparent 0%, var(--color-study-sunlight) 30%, var(--color-study-sunlight) 70%, transparent 100%);
+            transform: skewX(-20deg);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Bookshelf */
+        .bookshelf {
+            position: absolute;
+            top: 70px;
+            left: 30px;
+            width: 110px;
+            height: 220px;
+            background: var(--color-study-wood);
+            border-radius: 4px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+            padding: 10px;
+        }
+        .shelf {
+            width: 100%;
+            height: 4px;
+            background: var(--color-study-wall);
+            margin-bottom: 50px;
+        }
+        .book {
+            display: inline-block;
+            width: 12px;
+            height: 40px;
+            margin-right: 3px;
+            border-radius: 2px;
+        }
+        /* Simple CSS books */
+        .book:nth-child(1) { background: var(--color-primary-blue); }
+        .book:nth-child(2) { background: var(--color-accent-gold); }
+        .book:nth-child(3) { background: #66bb6a; }
+        .book:nth-child(4) { background: #ff8a65; }
+
+        .plant {
+            position: absolute;
+            bottom: 100px; 
+            right: 20px;
+            width: 60px;
+            height: 80px;
+            z-index: 4; 
+        }
+        .plant-pot {
+            width: 50px;
+            height: 40px;
+            background: #ff8a65; 
+            border-radius: 0 0 20px 20px;
+            position: absolute;
+            bottom: 0;
+            left: 5px;
+        }
+        .plant-leaf {
+            position: absolute;
+            width: 20px;
+            height: 30px;
+            background: #66bb6a; 
+            border-radius: 50% 0;
+        }
+        .plant-leaf.leaf-1 { bottom: 30px; left: 10px; transform: rotate(-30deg); }
+        .plant-leaf.leaf-2 { bottom: 35px; left: 30px; transform: rotate(40deg); }
+        .plant-leaf.leaf-3 { bottom: 25px; left: 20px; transform: rotate(10deg); width: 15px; height: 25px; }
+
+        /* 2D Vector Illustration (CSS) */
+        .person-at-desk {
+            width: 320px; 
+            height: 300px;
+            position: absolute; 
+            z-index: 2;
+            bottom: 10px; 
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .desk {
+            width: 100%; 
+            height: 20px;
+            background: var(--color-study-wood); 
+            border-radius: 4px;
+            position: absolute;
+            bottom: 100px;
+            z-index: 2;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .person-body {
+            width: 80px;
+            height: 100px;
+            background: var(--color-primary-blue);
+            border-radius: 40px 40px 0 0;
+            position: absolute;
+            bottom: 120px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+            animation: bobbing 3s ease-in-out infinite;
+            animation-delay: -0.5s;
+        }
+
+        .person-head {
+            width: 50px;
+            height: 50px;
+            background: #ffdbac; /* Skin tone */
+            border-radius: 50%;
+            position: absolute;
+            bottom: 210px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+            animation: bobbing 3s ease-in-out infinite;
+        }
+        
+
+        .laptop {
+            width: 100px;
+            height: 70px;
+            background: #b0bec5; /* Silver/grey back */
+            border: 4px solid #90a4ae; /* Darker edge */
+            border-radius: 8px 8px 0 0;
+            position: absolute;
+            bottom: 108px; 
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+        }
+        
+        .laptop::after { /* Logo */
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 22px; 
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 5px; 
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+        }
+
+        .laptop-screen {
+            display: none; 
+        }
+        
+        .laptop-screen::before {
+            display: none;
+        }
+        
+        .laptop-base {
+            width: 120px;
+            height: 8px;
+            background: #b0bec5;
+            border-radius: 0 0 4px 4px;
+            position: absolute;
+            bottom: 100px; 
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+        }
+        
+        /* Desk plant */
+        .desk-plant {
+            position: absolute;
+            width: 40px;
+            height: 50px;
+            bottom: 100px; 
+            left: 30px; 
+            z-index: 3;
+        }
+        .desk-plant .plant-pot {
+            width: 30px;
+            height: 25px;
+            background: #81c784; 
+            border-radius: 0 0 10px 10px;
+            left: 5px;
+        }
+        .desk-plant .plant-leaf {
+            width: 12px;
+            height: 18px;
+            background: #a5d6a7;
+        }
+        .desk-plant .leaf-1 { bottom: 20px; left: 5px; }
+        .desk-plant .leaf-2 { bottom: 22px; left: 15px; }
+        
+        /* Coffee cup */
+        .coffee-cup {
+            position: absolute;
+            width: 25px;
+            height: 30px;
+            background: var(--color-white);
+            border: 2px solid #e0e0e0;
+            border-radius: 4px 4px 10px 10px;
+            bottom: 100px; 
+            right: 40px; 
+            z-index: 3;
+        }
+        .coffee-cup::after { /* Handle */
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 12px;
+            right: -10px;
+            top: 5px;
+            border: 2px solid #e0e0e0;
+            border-radius: 0 50% 50% 0;
+        }
+        
+        .steam {
+            position: absolute;
+            width: 2px;
+            height: 10px;
+            background: #fafafa;
+            bottom: 130px; 
+            right: 45px; 
+            z-index: 3;
+            opacity: 0.6;
+            animation: steam-float 1.5s ease-in-out infinite;
+        }
+        .steam.steam-2 {
+            right: 52px; 
+            animation-delay: -0.7s;
+            height: 8px;
+        }
+
+        @keyframes steam-float {
+            0% { transform: translateY(0); opacity: 0.6; }
+            100% { transform: translateY(-15px); opacity: 0; }
+        }
+        
+        @keyframes bobbing {
+            0% { transform: translateY(0) translateX(-50%); }
+            50% { transform: translateY(-4px) translateX(-50%); }
+            100% { transform: translateY(0) translateX(-50%); }
+        }
+        
+
+        /* ------------------------------------------------------------------
+        Section 2: Learning Path
+        ------------------------------------------------------------------
+        */
+        .learning-path-section {
+            background: var(--color-white);
+        }
+
+        .columns-layout {
+            display: flex;
+            justify-content: space-around;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .feature-card {
+            flex-basis: 300px;
+            flex-grow: 1;
+            background: var(--color-white);
+            border-radius: 12px;
+            padding: 35px 30px;
+            text-align: center;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.04);
+            transition: all 0.3s ease-in-out;
+            border: 1px solid var(--color-bg-gradient-end);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 30px rgba(67, 107, 149, 0.1);
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 25px;
+            color: var(--color-primary-blue);
+            stroke-width: 1.5;
+        }
+
+        .feature-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            margin-bottom: 10px;
+            color: var(--color-text-main);
+        }
+
+        .feature-card p {
+            color: var(--color-text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* ------------------------------------------------------------------
+        Section 3: Progress Overview (Goal Grid)
+        ------------------------------------------------------------------
+        */
+        .progress-section {
+            background: linear-gradient(135deg, #eef3f7, #dfe8ee);
+        }
+
+        .progress-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+        }
+
+        .progress-illustration {
+            flex-basis: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 400px;
+        }
+        
+        /* REMOVE old Donut Chart Styles */
+        .knowledge-tree, .tree-trunk, .tree-canopy, .progress-dot, .tree-branch, .tree-label {
+            display: none;
+        }
+        .progress-chart-wrapper, .donut-chart, .donut-chart-inner, .progress-value, .progress-label {
+            display: none;
+        }
+
+        /* NEW: Goal Grid Styles */
+        .goal-summary-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto; /* Center the grid container */
+        }
+
+        .goal-card {
+            background: var(--color-white);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            /* Custom property used by JS to set the color dynamically */
+            border-left: 5px solid var(--progress-color, var(--color-primary-blue)); 
+            transition: transform 0.3s ease;
+        }
+        .goal-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .goal-card h4 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--color-text-main);
+        }
+
+        .progress-bar-container {
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 5px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%; /* Start at 0 for animation */
+            background: var(--progress-color, var(--color-primary-blue));
+            transition: width 1s ease-out; /* Smooth fill effect */
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            color: var(--color-text-secondary);
+            font-weight: 500;
+        }
+        .progress-percentage {
+            color: var(--progress-color, var(--color-primary-blue));
+            font-weight: 700;
+        }
+
+        .progress-text {
+            flex-basis: 50%;
+            padding-left: 30px;
+        }
+
+        .progress-text h2 {
+            font-size: 2.8rem;
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .progress-text p {
+            font-size: 1.1rem;
+            color: var(--color-text-secondary);
+            margin-bottom: 30px;
+            max-width: 500px;
+        }
+
+        /* ------------------------------------------------------------------
+        Section 4: Global Community
+        ------------------------------------------------------------------
+        */
+        .community-section {
+            background: var(--color-dark-bg);
+            color: var(--color-bg-gradient-start);
+            position: relative;
+        }
+        
+        .community-section .section-title {
+            color: var(--color-white);
+        }
+        
+        .community-section .title-underline {
+            background: linear-gradient(90deg, var(--color-primary-blue), var(--color-accent-gold));
+        }
+
+        .community-content {
+            position: relative;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image: 
+                radial-gradient(var(--color-accent-gold) 0.5px, transparent 0.5px),
+                radial-gradient(var(--color-accent-gold) 0.5px, transparent 0.5px);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+            background-repeat: repeat;
+            opacity: 0.3;
+        }
+        
+        /* This is a bit of a hack to show the avatars on top of the BG */
+        .avatar-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 50px;
+            flex-wrap: wrap;
+            padding: 20px;
+        }
+
+        .avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--color-text-secondary);
+            border: 3px solid var(--color-accent-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-dark-bg);
+            font-weight: 600;
+            font-size: 1.8rem;
+            /* Simple 2D avatar placeholders */
+        }
+        
+        .avatar:nth-child(2) { background: #81c784; }
+        .avatar:nth-child(3) { background: #64b5f6; }
+        .avatar:nth-child(4) { background: #ffb74d; }
+        .avatar:nth-child(5) { background: #e0e0e0; }
+
+        /* ------------------------------------------------------------------
+        Section 5: Featured Problems
+        ------------------------------------------------------------------
+        */
+        .problems-section {
+            background: var(--color-white);
+        }
+        
+        .problems-layout {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .problems-grid {
+            flex: 3;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        
+        .problem-card {
+            background: var(--color-white);
+            border: 1px solid var(--color-bg-gradient-end);
+            border-radius: 12px;
+            padding: 24px;
+            transition: all 0.3s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .problem-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+            border-color: var(--color-accent-gold);
+        }
+        
+        .problem-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            margin-bottom: 12px;
+        }
+        
+        .difficulty-tag {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--color-white);
+            margin-bottom: 20px;
+        }
+        
+        .tag-easy { background: #4caf50; }
+        .tag-medium { background: #ff9800; }
+        .tag-hard { background: #f44336; }
+        
+        .problem-card .btn {
+            width: 100%;
+            padding: 10px 0;
+            text-align: center;
+            background: var(--color-bg-gradient-start);
+            color: var(--color-primary-blue);
+            font-weight: 600;
+            border: 1px solid var(--color-bg-gradient-end);
+        }
+        
+        .problem-card:hover .btn {
+            background: var(--color-primary-blue);
+            color: var(--color-white);
+            border-color: var(--color-primary-blue);
+        }
+        
+        .problems-sidebar {
+            flex: 1;
+            background: var(--color-bg-gradient-start);
+            border-radius: 12px;
+            padding: 24px;
+            height: fit-content;
+        }
+        
+        .problems-sidebar h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--color-text-main);
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--color-bg-gradient-end);
+            padding-bottom: 10px;
+        }
+        
+        .sidebar-problem-list {
+            list-style: none;
+        }
+        
+        .sidebar-problem-list li {
+            margin-bottom: 15px;
+        }
+        
+        .sidebar-problem-list a {
+            text-decoration: none;
+            color: var(--color-text-secondary);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .sidebar-problem-list a:hover {
+            color: var(--color-accent-gold);
+        }
+
+        /* ------------------------------------------------------------------
+        Section 6: Mentor/AI Assistant
+        ------------------------------------------------------------------
+        */
+        .mentor-section {
+            background: linear-gradient(135deg, var(--color-light-gray), #f0f0f2);
+        }
+        
+        .mentor-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+            background: var(--color-white);
+            padding: 60px;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+        }
+        
+        .mentor-avatar {
+            flex-shrink: 0;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--color-primary-blue), #6392c3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 0 20px rgba(67, 107, 149, 0.3);
+        }
+        
+        /* CSS Bot Face */
+        .bot-face {
+            width: 100px;
+            height: 100px;
+            position: relative;
+        }
+        .bot-eye {
+            width: 15px;
+            height: 25px;
+            background: var(--color-white);
+            border-radius: 50%;
+            position: absolute;
+            top: 30px;
+        }
+        .bot-eye.left { left: 20px; }
+        .bot-eye.right { right: 20px; }
+        .bot-mouth {
+            width: 40px;
+            height: 20px;
+            border: 4px solid var(--color-white);
+            border-top: none;
+            border-radius: 0 0 20px 20px;
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .bot-accent {
+            width: 10px;
+            height: 10px;
+            background: var(--color-accent-gold);
+            border-radius: 50%;
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 10px 2px var(--color-accent-gold);
+        }
+
+        .mentor-text {
+            flex-grow: 1;
+            padding-left: 30px;
+        }
+        
+        .mentor-text h2 {
+            font-size: 2.5rem;
+            text-align: left;
+            margin-bottom: 10px;
+        }
+        
+        .mentor-text p {
+            font-size: 1.15rem;
+            color: var(--color-text-secondary);
+            margin-bottom: 25px;
+        }
+        
+        .mentor-text .btn {
+            box-shadow: 0 0 20px 5px rgba(202, 168, 85, 0.2);
+        }
+
+        /* ------------------------------------------------------------------
+        Section 7: Footer
+        ------------------------------------------------------------------
+        */
+        .footer {
+            background: linear-gradient(180deg, #1f2937, var(--color-dark-bg));
+            color: #e7eef4;
+            text-align: center;
+            padding: 70px 20px 30px 20px;
+        }
+        
+        .footer-quote {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1.4rem;
+            margin-bottom: 35px;
+            opacity: 0.8;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .footer-links {
+            margin-bottom: 35px;
+        }
+        
+        .footer-links a {
+            color: #e7eef4;
+            text-decoration: none;
+            margin: 0 15px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--color-accent-gold);
+        }
+        
+        .footer-bottom {
+            font-size: 0.9rem;
+            opacity: 0.6;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 30px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* ------------------------------------------------------------------
+        Responsiveness
+        ------------------------------------------------------------------
+        */
+        
+        @media (max-width: 992px) {
+            .hero-text h1 {
+                font-size: 3.5rem;
+            }
+            .hero-container {
+                flex-direction: column;
+                text-align: center;
+                padding-top: 120px;
+            }
+            .hero-text {
+                padding-right: 0;
+                text-align: center;
+            }
+            .hero-cta {
+                justify-content: center;
+            }
+            .hero-illustration {
+                margin-top: 60px;
+                width: 100%;
+                max-width: 600px; 
+                min-height: 500px;
+            }
+            
+            .progress-container {
+                flex-direction: column;
+            }
+            .progress-text {
+                padding-left: 0;
+                text-align: center;
+            }
+            .progress-text h2 {
+                text-align: center;
+            }
+            
+            .problems-layout {
+                flex-direction: column;
+            }
+            .problems-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .mentor-container {
+                flex-direction: column;
+                text-align: center;
+                padding: 40px;
+            }
+            .mentor-text {
+                padding-left: 0;
+            }
+            .mentor-text h2 {
+                text-align: center;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 15px 20px;
+            }
+            .logo-text {
+                display: none; /* Hide text on small screens if needed */
+            }
+            .section-title {
+                font-size: 2.2rem;
+            }
+            
+            .hero-text h1 {
+                font-size: 2.8rem;
+            }
+            .hero-text .subtext {
+                font-size: 1.1rem;
+            }
+            
+            .columns-layout {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .problems-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-quote {
+                font-size: 1.2rem;
+            }
+            .footer-links {
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .goal-summary-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero-illustration {
+                min-height: 400px;
+            }
+            .plant, .bookshelf, .sunlight-beam {
+                display: none;
+            }
+            .window-frame {
+                width: 120px;
+                height: 150px;
+                top: 20px;
+                right: 20px;
+            }
+            .person-at-desk {
+                transform: translateX(-50%) scale(0.9);
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- NEW: Navigation Bar & Logo -->
+    <nav class="navbar">
+        <a href="About AlgoValut.html" class="logo-container">l̥
+            <div class="logo-icon">
+                <!-- Simple SVG for "Vault" / Code icon -->
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="11" width="18" height="10" rx="2" ry="2"></rect>
+                    <circle cx="12" cy="16" r="1"></circle>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+            </div>
+            <span class="logo-text">AlgoVault</span>
+        </a>
+        <!-- NEW: Let's Goo Button Moved Here -->
+        <button class="btn btn-lets-goo" >Let's Goo 🚀</button>
+    </nav>
+
+    <!-- Section 1: Hero -->
+    <header class="hero-section">
+        <div class="container hero-container">
+            <div class="hero-text fade-in-up">
+                <h1>Where Logic Meets Peace</h1>
+                <p class="subtext">Sharpen your mind — one calm challenge at a time.</p>
+                <div class="hero-cta">
+                    <a href="D:\The Create\MN LS .HTML" class="btn btn-filled">Start Learning</a>
+                    <a href="D:\The Create\MN Problem.html" class="btn btn-outline">Explore Problems</a>
+                </div>
+            </div>
+            
+            <!-- Hero Illustration: Cozy Study theme -->
+            <div class="hero-illustration fade-in-up" style="transition-delay: 200ms;">
+                
+                <!-- "Natural sunlight" beam -->
+                <div class="sunlight-beam"></div>
+
+                <!-- "Matte wood" floor -->
+                <div class="room-floor"></div>
+                
+                <!-- "Large glass window" -->
+                <div class="window-frame">
+                    <div class="window-pane"></div>
+                    <div class="window-pane"></div>
+                    <div class="window-pane"></div>
+                    <div class="window-pane"></div>
+                    <div class="window-sill"></div>
+                </div>
+
+                <!-- Floor plant -->
+                <div class="plant">
+                    <div class="plant-pot"></div>
+                    <div class="plant-leaf leaf-1"></div>
+                    <div class="plant-leaf leaf-2"></div>
+                    <div class="plant-leaf leaf-3"></div>
+                </div>
+
+                <!-- "Bookshelf with organized books" -->
+                <div class="bookshelf">
+                    <div class="book"></div>
+                    <div class="book"></div>
+                    <div class="book"></div>
+                    <div class="book"></div>
+                    <div class="shelf"></div>
+                    <div class="book"></div>
+                    <div class="book"></div>
+                    <div class="book"></div>
+                    <div class="shelf"></div>
+                </div>
+                
+                <!-- "Man at large wooden desk" -->
+                <div class="person-at-desk">
+                    <div class="person-head"></div> 
+                    <div class="person-body"></div> 
+                    <div class="desk"></div>
+                    <div class="laptop-base"></div>
+                    <div class="laptop">
+                        <!-- Laptop screen with "cool bluish light" glow -->
+                        <div class="laptop-screen"></div>
+                    </div>
+                    
+                    <!-- "Small indoor plant" on desk -->
+                    <div class="desk-plant">
+                        <div class="plant-pot"></div>
+                        <div class="plant-leaf leaf-1"></div>
+                        <div class="plant-leaf leaf-2"></div>
+                    </div>
+                    
+                    <!-- "Steaming coffee cup" on desk -->
+                    <div class="coffee-cup"></div>
+                    <div class="steam steam-1"></div>
+                    <div class="steam steam-2"></div>
+                </div>
+
+            </div>
+        </div>
+    </header>
+
+    <main>
+
+        <!-- Section 2: Learning Path -->
+        <section id="learning" class="learning-path-section">
+            <div class="container">
+                <h2 class="section-title fade-in-up">Learning Should Feel Like Flow</h2>
+                <div class="title-underline fade-in-up"></div>
+                
+                <div class="columns-layout">
+                    <div class="feature-card fade-in-up" style="transition-delay: 100ms;">
+                        <!-- Icon 1: Guided Challenges -->
+                        <svg class="card-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5z" />
+                        </svg>
+                        <h3>Guided Challenges</h3>
+                        <p>An AI-tailored coding path that adapts to your personal level.</p>
+                    </div>
+                    
+                    <div class="feature-card fade-in-up" style="transition-delay: 200ms;">
+                        <!-- Icon 2: Focus Mode -->
+                        <svg class="card-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.898 20.623L16.5 21.75l-.398-1.127a3.375 3.375 0 00-2.455-2.456L12.75 18l1.127-.398a3.375 3.375 0 002.455-2.456L16.5 14.25l.398 1.127a3.375 3.375 0 002.456 2.456L20.25 18l-1.127.398a3.375 3.375 0 00-2.456 2.456z" />
+                        </svg>
+                        <h3>Focus Mode</h3>
+                        <p>A beautiful, distraction-free environment to help you think clearly.</p>
+                    </div>
+                    
+                    <div class="feature-card fade-in-up" style="transition-delay: 300ms;">
+                        <!-- Icon 3: Code Canvas -->
+                        <svg class="card-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M14.25 9.75L16.5 12l-2.25 2.25m-4.5 0L7.5 12l2.25-2.25M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25z" />
+                        </svg>
+                        <h3>Code Canvas</h3>
+                        <p>Smart hints, elegant syntax highlighting, and clean test cases.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Progress Overview (Goal Grid) -->
+        <section class="progress-section">
+            <div class="container progress-container">
+                <div class="progress-illustration fade-in-up">
+                    <!-- NEW: Goal Grid Visualization -->
+                    <div id="goalGrid" class="goal-summary-grid">
+                        <p style="text-align: center; color: var(--color-text-secondary); padding: 50px;">Loading Goals...</p>
+                    </div>
+                </div>
+                <div class="progress-text fade-in-up" style="transition-delay: 200ms;">
+                    <h2>Your Path to Mastery, Clarified.</h2>
+                    <p>Focus on completion, not competition. Our personalized dashboard shows your progress towards mastery across all your current learning objectives, helping you visualize success clearly.</p>
+                    <a href="D:\The Create\MN Practice.html" class="btn btn-gradient">View Dashboard</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Global Community -->
+        <section class="community-section">
+            <div class="container">
+                <h2 class="section-title fade-in-up">A Calm Global Space to Grow Together</h2>
+                <div class="title-underline fade-in-up"></div>
+                <div class="community-content fade-in-up" style="transition-delay: 200ms;">
+                    <!-- Avatars will sit on top -->
+                </div>
+                <div class="avatar-container fade-in-up" style="transition-delay: 300ms;">
+                    <div class="avatar">A</div>
+                    <div class="avatar">B</div>
+                    <div class="avatar">C</div>
+                    <div class="avatar">D</div>
+                    <div class="avatar">E</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Featured Problems -->
+        <section id="problems" class="problems-section">
+            <div class="container">
+                <h2 class="section-title fade-in-up">Solve at Your Own Pace</h2>
+                <div class="title-underline fade-in-up"></div>
+                
+                <div class="problems-layout fade-in-up" style="transition-delay: 200ms;">
+                    <div class="problems-grid">
+                        <!-- Problem Card 1 -->
+                        <div class="problem-card">
+                            <div>
+                                <h3>Two Sum</h3>
+                                <span class="difficulty-tag tag-easy">Easy</span>
+                            </div>
+                            <a href="#" class="btn">Solve</a>
+                        </div>
+                        <!-- Problem Card 2 -->
+                        <div class="problem-card">
+                            <div>
+                                <h3>Reverse Linked List</h3>
+                                <span class="difficulty-tag tag-easy">Easy</span>
+                            </div>
+                            <a href="#" class="btn">Solve</a>
+                        </div>
+                        <!-- Problem Card 3 -->
+                        <div class="problem-card">
+                            <div>
+                                <h3>Validate Binary Search Tree</h3>
+                                <span class="difficulty-tag tag-medium">Medium</span>
+                            </div>
+                            <a href="#" class="btn">Solve</a>
+                        </div>
+                        <!-- Problem Card 4 -->
+                        <div class="problem-card">
+                            <div>
+                                <h3>LRU Cache</h3>
+                                <span class="difficulty-tag tag-medium">Medium</span>
+                            </div>
+                            <a href="#" class="btn">Solve</a>
+                        </div>
+                        <!-- Problem Card 5 -->
+                        <div class="problem-card">
+                            <div>
+                                <h3>Median of Two Sorted Arrays</h3>
+                                <span class="difficulty-tag tag-hard">Hard</span>
+                            </div>
+                            <a href="#" class="btn">Solve</a>
+                        </div>
+                        <!-- Problem Card 6 -->
+                        <div class="problem-card">
+                            <div>
+                                <h3>Word Ladder II</h3>
+                                <span class="difficulty-tag tag-hard">Hard</span>
+                            </div>
+                            <a href="#" class="btn">Solve</a>
+                        </div>
+                    </div>
+                    
+                    <aside class="problems-sidebar">
+                        <h3>Recommended for You</h3>
+                        <ul class="sidebar-problem-list">
+                            <li><a href="#">Find Palindrome</a></li>
+                            <li><a href="#">Sort Colors</a></li>
+                            <li><a href="#">Longest Substring</a></li>
+                        </ul>
+                    </aside>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 6: Mentor/AI Assistant -->
+        <section class="mentor-section">
+            <div class="container mentor-container fade-in-up">
+                <div class="mentor-avatar">
+                    <div class="bot-face">
+                        <div class="bot-eye left"></div>
+                        <div class="bot-eye right"></div>
+                        <div class="bot-mouth"></div>
+                        <div class="bot-accent"></div>
+                    </div>
+                </div>
+                <div class="mentor-text">
+                    <h2>Meet Ava, your AlgoVault mentor.</h2>
+                    <p>Learn with calmness, not rush. Ask me anything, anytime.</p>
+                    <a href="#" class="btn btn-outline">Ask Ava</a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Section 7: Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p class="footer-quote">“Every algorithm begins with silence and ends in clarity.”</p>
+            <div class="footer-links">
+                <a href="#">About</a>
+                <a href="#">GitHub</a>
+                <a href="#">Discord</a>
+                <a href="#">Blog</a>
+                <a href="#">Privacy</a>
+            </div>
+            <div class="footer-bottom">
+                © 2025 AlgoVault. Crafted By Manthan Vinzuda with ❤️.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll Animation and Chart Script -->
+    <script>
+        // Sample goal progress data
+        const userGoals = [
+            { id: "ds", name: "Data Structures", progress: 85, color: "#4caf50" }, // Green
+            { id: "dp", name: "Dynamic Programming", progress: 42, color: "#ff9800" }, // Orange
+            { id: "weekly", name: "Weekly Challenge Streak", progress: 90, color: "#436b95" }, // Blue
+            { id: "algo", name: "Advanced Algorithms", progress: 15, color: "#f44336" } // Red
+        ];
+
+        /**
+         * Renders the goal cards and their initial progress.
+         */
+        function renderGoalGrid() {
+            const grid = document.getElementById('goalGrid');
+            if (!grid) return;
+
+            // Generate HTML for all goal cards
+            grid.innerHTML = userGoals.map(goal => `
+                <div class="goal-card" style="--progress-color: ${goal.color};">
+                    <h4>${goal.name}</h4>
+                    <div class="progress-bar-container">
+                        <div id="progress-bar-${goal.id}" class="progress-bar" style="width: 0%;"></div>
+                    </div>
+                    <div class="progress-info">
+                        <span>Current Progress</span>
+                        <span id="progress-value-${goal.id}" class="progress-percentage">0%</span>
+                    </div>
+                </div>
+            `).join('');
+
+            // Animate progress bars and values after rendering
+            setTimeout(() => {
+                userGoals.forEach(goal => {
+                    const bar = document.getElementById(`progress-bar-${goal.id}`);
+                    const value = document.getElementById(`progress-value-${goal.id}`);
+                    if (bar) {
+                        // Triggers the CSS transition to fill the bar
+                        bar.style.width = `${goal.progress}%`;
+                    }
+                    if (value) {
+                        // Animates the text value from 0% to the goal progress
+                        animateGoalValue(0, goal.progress, 800, value);
+                    }
+                });
+            }, 100); // Small delay to ensure CSS transition is ready
+        }
+        
+        /**
+         * Helper function to animate the number display for each goal card.
+         */
+        function animateGoalValue(start, end, duration, element) {
+            let startTime = null;
+
+            function step(timestamp) {
+                if (!startTime) startTime = timestamp;
+                const progress = timestamp - startTime;
+                const percentage = Math.min(progress / duration, 1);
+                const currentValue = Math.floor(percentage * (end - start) + start);
+
+                element.textContent = `${currentValue}%`;
+                
+                if (progress < duration) {
+                    window.requestAnimationFrame(step);
+                }
+            }
+            window.requestAnimationFrame(step);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observerCallback = (entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        
+                        // Render and animate the goal grid when the progress section is visible
+                        if (entry.target.closest('.progress-illustration')) {
+                            renderGoalGrid(); 
+                        }
+
+                        observer.unobserve(entry.target);
+                    }
+                });
+            };
+
+            const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+            const elementsToAnimate = document.querySelectorAll('.fade-in-up');
+            elementsToAnimate.forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
+
+</body>
+</html>
