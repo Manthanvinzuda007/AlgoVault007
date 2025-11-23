@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore Paths - AlgoVault</title>
+
+    <!-- Consistent Fonts: Inter and Playfair Display -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Phosphor Icons (Consistent with Practice page) -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="MN Explore Style.css">
+</head>
+<body data-theme="light">
+
+    <!-- 1. Navbar (Using CodeArena style) -->
+    <nav class="navbar">
+        <a href="D:\The Create\About AlgoValut.html" class="nav-logo">
+            <i class="ph-fill ph-code-block"></i>
+            AlgoVault
+        </a>
+        <div class="nav-center">
+            <a href="D:\The Create\MN Home Page.html" class="nav-link">Home</a>
+            <a href="D:\The Create\MN Practice.html" class="nav-link">Practice</a>
+            <a href="D:\The Create\MN Explore.HTML" class="nav-link active">Problems</a>
+            <a href="D:\The Create\MN Discuss.html" class="nav-link">Discuss</a>
+        </div>
+        <div class="nav-right">
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+                <i class="ph ph-moon"></i>
+                <i class="ph ph-sun"></i>
+            </button>
+            
+            <!-- Profile Avatar Click Target -->
+            <img src="https://placehold.co/36x36/caa855/ffffff?text=MV" alt="Profile Avatar" class="profile-avatar" id="profile-avatar-btn">
+
+            <!-- Profile Popup Menu -->
+            <div class="profile-popup" id="profile-popup">
+                <div class="profile-info">
+                    <div class="avatar">M</div>
+                    <div class="profile-details">
+                        <h5>Manthan Vinzuda</h5>
+                        <p>m.vinzuda@algovault.dev</p>
+                    </div>
+                </div>
+                <div class="profile-menu">
+                    <a href="#"><i class="ph ph-user"></i> View Profile</a>
+                    <a href="#"><i class="ph ph-chart-line-up"></i> My Stats</a>
+                    <a href="#"><i class="ph ph-gear"></i> Settings</a>
+                    <a href="#" style="color: var(--difficulty-hard);"><i class="ph ph-sign-out"></i> Sign Out</a>
+                </div>
+            </div>
+            
+        </div>
+    </nav>
+
+    <!-- 2. Main Content -->
+    <main class="main-content">
+
+        <!-- Header and Filters -->
+        <header class="explore-header">
+            <h1>📚 Explore Learning Paths</h1>
+            <p>Master every topic — one calm, focused path at a time.</p>
+            
+            <!-- Filter Tabs -->
+            <div class="search-filters">
+                <div class="search-bar">
+                    <i class="ph ph-magnifying-glass" style="font-size: 1.125rem;"></i>
+                    <input type="text" class="search-input" placeholder="Search topics, paths, or problems...">
+                </div>
+                
+                <div class="filter-tabs">
+                    <!-- Data-filter attribute matches data-category on cards -->
+                    <button class="filter-tab active" data-filter="all">All</button>
+                    <button class="filter-tab" data-filter="dsa">DSA</button>
+                    <button class="filter-tab" data-filter="algorithms">Algorithms</button>
+                    <button class="filter-tab" data-filter="system">System Design</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Page Layout: Grid + Sidebar -->
+        <div class="page-layout">
+
+            <!-- 3. Explore Cards Grid -->
+            <section class="explore-grid" id="explore-grid">
+
+                <!-- Card 1: Dynamic Programming (DSA, Algorithms) -->
+                <article class="explore-card" data-modal-target="dp-101" data-category="dsa algorithms">
+                    <div class="card-banner" data-subject="dp">
+                        <i class="ph ph-code-simple-fill"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Dynamic Programming 101</h3>
+                        <p>Learn the fundamental concepts of DP from scratch.</p>
+                        <div class="card-tags">
+                            <span class="tag">Beginner</span>
+                            <span class="tag">DSA</span>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar-inner" style="width: 40%;"></div>
+                        </div>
+                        <button class="btn btn-primary card-btn">Continue Learning</button>
+                    </div>
+                </article>
+
+                <!-- Card 2: Advanced Graph Algorithms (DSA, Algorithms) -->
+                <article class="explore-card" data-modal-target="graph-adv" data-category="dsa algorithms">
+                    <div class="card-banner" data-subject="graphs">
+                         <i class="ph ph-chart-donut-fill"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Advanced Graph Algorithms</h3>
+                        <p>Master Dijkstra, Bellman-Ford, and flow networks.</p>
+                        <div class="card-tags">
+                            <span class="tag">Advanced</span>
+                            <span class="tag">Graphs</span>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar-inner" style="width: 15%;"></div>
+                        </div>
+                        <button class="btn btn-primary card-btn">Start Learning</button>
+                    </div>
+                </article>
+
+                <!-- Card 3: SQL Masterclass (DSA) -->
+                <article class="explore-card" data-modal-target="sql-master" data-category="dsa">
+                    <div class="card-banner" data-subject="sql">
+                        <i class="ph ph-database-fill"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>SQL Masterclass</h3>
+                        <p>From simple SELECT queries to complex joins and subqueries.</p>
+                        <div class="card-tags">
+                            <span class="tag">Intermediate</span>
+                            <span class="tag">Database</span>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar-inner" style="width: 75%;"></div>
+                        </div>
+                        <button class="btn btn-primary card-btn">Continue Learning</button>
+                    </div>
+                </article>
+                
+                <!-- Card 4: Binary Search Deep Dive (Algorithms) -->
+                <article class="explore-card" data-modal-target="binary-deep" data-category="algorithms">
+                    <div class="card-banner" data-subject="binary">
+                        <i class="ph ph-magnifying-glass-plus-fill"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Binary Search Deep Dive</h3>
+                        <p>Explore variations and common pitfalls of binary search.</p>
+                        <div class="card-tags">
+                            <span class="tag">Beginner</span>
+                            <span class="tag">Algorithms</span>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar-inner" style="width: 0%;"></div>
+                        </div>
+                        <button class="btn btn-primary card-btn">Start Learning</button>
+                    </div>
+                </article>
+
+                <!-- Card 5: System Design Basics (System Design) -->
+                <article class="explore-card" data-modal-target="sys-design" data-category="system">
+                    <div class="card-banner" data-subject="system">
+                        <i class="ph ph-hard-drives-fill"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>System Design Basics</h3>
+                        <p>Introduction to scaling, caching, and distributed systems.</p>
+                        <div class="card-tags">
+                            <span class="tag">Intermediate</span>
+                            <span class="tag">System Design</span>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar-inner" style="width: 10%;"></div>
+                        </div>
+                        <button class="btn btn-primary card-btn">Start Learning</button>
+                    </div>
+                </article>
+
+                <!-- Card 6: Two Pointers Technique (Algorithms) -->
+                <article class="explore-card" data-modal-target="pointers-tech" data-category="algorithms">
+                    <div class="card-banner" data-subject="pointers">
+                        <i class="ph ph-arrows-out-line-horizontal-fill"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Two Pointers Technique</h3>
+                        <p>Solve array and string problems efficiently using two pointers.</p>
+                        <div class="card-tags">
+                            <span class="tag">Beginner</span>
+                            <span class="tag">Algorithms</span>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar-inner" style="width: 60%;"></div>
+                        </div>
+                        <button class="btn btn-primary card-btn">Continue Learning</button>
+                    </div>
+                </article>
+
+                 <!-- Card 7: Heap Data Structure (DSA) -->
+                <article class="explore-card" data-modal-target="heap-ds" data-category="dsa">
+                    <div class="card-banner" data-subject="heap">
+                        <i class="ph ph-fire-extinguisher-fill"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Heap Data Structure</h3>
+                        <p>Master Priority Queues and solve k-th largest element problems.</p>
+                        <div class="card-tags">
+                            <span class="tag">Intermediate</span>
+                            <span class="tag">DSA</span>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar-inner" style="width: 25%;"></div>
+                        </div>
+                        <button class="btn btn-primary card-btn">Start Learning</button>
+                    </div>
+                </article>
+                
+            </section>
+
+            <!-- 4. Sidebar -->
+            <aside class="sidebar">
+                <div class="sidebar-widget">
+                    <h4>Recommended Paths</h4>
+                    
+                    <a class="recommend-card">
+                        <div class="recommend-icon"><i class="ph ph-chart-bar-horizontal-fill"></i></div>
+                        <div class="recommend-info">
+                            <h5>Data Structures</h5>
+                            <p>The complete guide to foundational topics.</p>
+                        </div>
+                    </a>
+                    
+                    <a class="recommend-card">
+                        <div class="recommend-icon"><i class="ph ph-brain-fill"></i></div>
+                        <div class="recommend-info">
+                            <h5>Algorithm Foundations</h5>
+                            <p>Core logic from sorting to recursion.</p>
+                        </div>
+                    </a>
+                    
+                    <a class="recommend-card">
+                        <div class="recommend-icon"><i class="ph ph-database-fill"></i></div>
+                        <div class="recommend-info">
+                            <h5>SQL Challenge</h5>
+                            <p>Test your advanced query skills.</p>
+                        </div>
+                    </a>
+                </div>
+                
+                <div class="sidebar-widget">
+                    <h4>Quick Access</h4>
+                    <div class="quick-links">
+                        <a href="#" class="quick-link">
+                            <div class="icon-box"><i class="ph ph-calendar"></i></div>
+                            <span>Daily</span>
+                        </a>
+                        <a href="#" class="quick-link">
+                            <div class="icon-box"><i class="ph ph-chats"></i></div>
+                            <span>Discuss</span>
+                        </a>
+                        <a href="#" class="quick-link">
+                            <div class="icon-box"><i class="ph ph-trophy"></i></div>
+                            <span>Contests</span>
+                        </a>
+                        <a href="#" class="quick-link">
+                            <div class="icon-box"><i class="ph ph-books"></i></div>
+                            <span>Tutorials</span>
+                        </a>
+                    </div>
+                </div>
+            </aside>
+
+        </div>
+    </main>
+
+    <!-- 5. Modal -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal" id="learning-modal">
+            <button class="modal-close" id="modal-close-btn">&times;</button>
+            
+            <div class="modal-banner">DP 101</div>
+            
+            <div class="modal-content">
+                <h2>Dynamic Programming 101</h2>
+                
+                <ul class="chapter-list">
+                    <li class="chapter-item">
+                        <div class="chapter-item-info">
+                            <i class="chapter-icon ph ph-play-circle-fill"></i>
+                            <span>Introduction to DP</span>
+                        </div>
+                        <span class="chapter-status" style="color: var(--difficulty-easy);">Completed</span>
+                    </li>
+                    <li class="chapter-item">
+                        <div class="chapter-item-info">
+                            <i class="chapter-icon ph ph-play-circle-fill"></i>
+                            <span>Memoization (Top-Down)</span>
+                        </div>
+                        <span class="chapter-status">20:15 Left</span>
+                    </li>
+                    <li class="chapter-item">
+                        <div class="chapter-item-info">
+                            <i class="chapter-icon ph ph-lock-key-fill"></i>
+                            <span>Tabulation (Bottom-Up)</span>
+                        </div>
+                        <span class="chapter-status">Locked</span>
+                    </li>
+                </ul>
+                
+                <button class="btn btn-primary">Continue Path</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 6. Embedded JavaScript -->
+    <script src="MN Explore Script.js"></script>
+</body>
+</html>

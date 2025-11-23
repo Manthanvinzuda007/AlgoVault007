@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discuss Forum | AlgoVault</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="stylesheet" href="MN DISCUSS STYLE.CSS">
+</head>
+<body data-theme="light">
+
+    <header class="navbar flex items-center justify-center">
+        <div class="flex items-center justify-between w-full max-w-7xl px-4 lg:px-6">
+            <a href="#" class="logo flex items-center gap-1">
+                <i class="ph-fill ph-code-block"></i>
+                AlgoVault
+            </a>
+            <nav class="hidden sm:flex items-center gap-1">
+                <a href="D:\The Create\MN Home Page.html" class="nav-link">Home</a>
+                <a href="D:\The Create\MN Practice.html" class="nav-link">Problems</a>
+                <a href="D:\The Create\MN LeaderBorad.html" class="nav-link">Leaderboard</a>
+                <a href="D:\The Create\MN Explore.HTML" class="nav-link">Explore</a>
+            </nav>
+            <div class="flex items-center gap-3">
+                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+                    <i class="ph ph-moon"></i>
+                    <i class="ph ph-sun"></i>
+                </button>
+                <img src="https://placehold.co/36x36/caa855/ffffff?text=MV" alt="User Avatar" class="w-9 h-9 rounded-full border-2" style="border-color: var(--accent-highlight);">
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content max-w-7xl mx-auto p-4 lg:p-6 min-h-[calc(100vh-70px)]">
+        
+        <header class="discuss-header flex flex-col md:flex-row justify-between items-start md:items-center mb-6 border-b pb-4" style="border-color: var(--border-color);">
+            <div class="mb-4 md:mb-0">
+                <h1>Community Discussions</h1>
+                <p class="text-lg text-secondary">A calm space to share insights and ask questions.</p>
+            </div>
+            <button id="new-post-btn" class="accent-primary text-white font-semibold py-2 px-6 rounded-lg hover:opacity-90 transition-all shadow-md flex items-center gap-2 btn-animate">
+                <i class="ph ph-plus-circle-fill"></i>
+                <span class="text-sm">New Topic</span>
+            </button>
+        </header>
+
+        <div id="discuss-layout" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+            <section id="topic-list-column" class="lg:col-span-2 bg-secondary rounded-xl p-0 shadow-md border border-color">
+                
+                <div class="flex flex-wrap gap-2 p-4 border-b border-color bg-tertiary rounded-t-xl">
+                    <button class="filter-btn tag-style text-primary bg-secondary border border-color hover:bg-tertiary transition-all active-filter btn-animate" data-filter="all">All Topics</button>
+                    <button class="filter-btn tag-style tag-dsa btn-animate" data-filter="dsa">DSA</button>
+                    <button class="filter-btn tag-style tag-sys btn-animate" data-filter="system">System Design</button>
+                    <button class="filter-btn tag-style tag-q btn-animate" data-filter="question">Questions</button>
+                    <button class="filter-btn tag-style tag-gen btn-animate" data-filter="general">General</button>
+                </div>
+
+                <div id="topic-list" class="overflow-y-scroll-custom h-[70vh]">
+                </div>
+            </section>
+
+            <section id="detail-column" class="lg:col-span-1 min-h-[70vh] flex flex-col">
+                
+                <div id="default-view" class="bg-secondary rounded-xl p-6 shadow-md border border-color flex flex-col items-center justify-center text-center h-full">
+                    <i class="ph ph-chats text-accent-primary text-5xl mb-4"></i>
+                    <h2 class="text-xl font-semibold mb-2 text-primary" style="font-family: var(--font-family);">Join the Discussion</h2>
+                    <p class="text-secondary mb-6">Select a topic from the left or start a new conversation.</p>
+                    <button class="accent-highlight text-white font-semibold py-2 px-4 rounded-lg hover:opacity-90 transition-all text-sm btn-animate" onclick="document.getElementById('new-post-btn').click();">Start a Topic</button>
+                </div>
+
+                <div id="new-post-form" class="bg-secondary rounded-xl p-6 shadow-md border border-color hidden">
+                    <h2 class="text-xl post-title mb-4">Create New Topic</h2>
+                    <form id="post-form" class="space-y-4">
+                        <div>
+                            <label for="post-title-input" class="block text-sm font-medium text-secondary mb-1">Title</label>
+                            <input type="text" id="post-title-input" class="w-full p-2 rounded-lg border border-color bg-tertiary text-primary focus:ring-2 focus:ring-accent-primary focus:outline-none transition-all" placeholder="E.g., Which is better for DP: Python or C++?">
+                        </div>
+                        <div>
+                            <label for="post-tag-select" class="block text-sm font-medium text-secondary mb-1">Category</label>
+                            <select id="post-tag-select" class="w-full p-2 rounded-lg border border-color bg-tertiary text-primary focus:ring-2 focus:ring-accent-primary focus:outline-none transition-all">
+                                <option value="question">Question</option>
+                                <option value="dsa">Data Structures & Algorithms</option>
+                                <option value="system">System Design</option>
+                                <option>General Discussion</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="post-content" class="block text-sm font-medium text-secondary mb-1">Content</label>
+                            <textarea id="post-content" rows="6" class="w-full p-2 rounded-lg border border-color bg-tertiary text-primary focus:ring-2 focus:ring-accent-primary focus:outline-none transition-all" placeholder="Detail your question or discussion point."></textarea>
+                        </div>
+                        <div class="flex gap-3">
+                            <button type="button" id="cancel-post-btn" class="flex-1 text-secondary bg-tertiary py-2 rounded-lg hover:bg-primary transition-all font-semibold btn-animate">Cancel</button>
+                            <button type="submit" class="flex-1 accent-primary text-white py-2 rounded-lg hover:opacity-90 transition-all font-semibold btn-animate">Post Topic</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="thread-detail" class="bg-secondary rounded-xl p-6 shadow-md border border-color hidden overflow-y-scroll-custom flex-grow">
+                </div>
+
+            </section>
+        </div>
+    </main>
+    
+    <div id="error-modal-overlay" class="modal-overlay">
+        <div class="alert-modal">
+            <i class="ph ph-warning-circle-fill"></i>
+            <h3>Validation Error</h3>
+            <p id="modal-message" class="text-secondary">Please fill out both the Title and Content fields.</p>
+            <button id="modal-close-btn" class="btn-animate">OK</button>
+        </div>
+    </div>
+
+    <script src="MN DISCUSS SCRIPT.JS"></script>
+ 
+</body>
+</html>

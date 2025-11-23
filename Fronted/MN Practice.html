@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeArena - Focused Practice</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="MN Practice Style.css">
+</head>
+<body data-theme="light">
+    <!-- Removed unnecessary external JS script tag -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <i class="ph-fill ph-code-block"></i>
+            AlgoVault
+        </div>
+        <div class="nav-center">
+            <a href="MN Practice.html" class="active">Problems</a>
+            <a href="MN LeaderBorad.html">Leaderboard</a>
+            <a href="MN Discuss.html">Discuss</a>
+            <a href="#">Settings</a>
+        </div>
+        <div class="nav-right">
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+                <i class="ph ph-moon"></i>
+                <i class="ph ph-sun"></i>
+            </button>
+            <img src="https://placehold.co/36x36/caa855/ffffff?text=U" alt="User Avatar" class="user-avatar" id="nav-user-avatar">
+        </div>
+    </nav>
+
+    <!-- 
+      * ==============================================
+      * B. MAIN 3-COLUMN LAYOUT
+      * ==============================================
+    -->
+    <main class="main-container">
+
+        <!-- 
+          * --------------------------------------------
+          * C. LEFT SIDEBAR (PROBLEM LIST)
+          * --------------------------------------------
+        -->
+        <aside class="panel sidebar-left">
+            <div class="problem-filter">
+                <input type="search" class="search-bar" placeholder="Search problems...">
+                <div class="filter-buttons">
+                    <button class="btn-filter active">All</button>
+                    <button class="btn-filter">Easy</button>
+                    <button class="btn-filter">Medium</button>
+                    <button class="btn-filter">Hard</button>
+                </div>
+            </div>
+
+            <div class="problem-list" id="problem-list">
+                <!-- Problems will be generated here by JavaScript -->
+                <p style="padding: 1rem; color: var(--text-muted);">Loading problems...</p>
+            </div>
+        </aside>
+
+        <!-- 
+          * --------------------------------------------
+          * D. MAIN CONTENT (PROBLEM & EDITOR)
+          * --------------------------------------------
+        -->
+        <main class="panel content-main">
+            <!-- Problem Description Area -->
+            <div class="problem-description">
+                <h1>1. Two Sum</h1>
+                <div class="problem-tags-list">
+                    <span class="tag">Array</span>
+                    <span class="tag">Hash Table</span>
+                </div>
+                <p>Given an array of integers <code>nums</code> and an integer <code>target</code>, return <em>indices of the two numbers such that they add up to <code>target</code></em>.</p>
+                <p>You may assume that each input would have <strong>exactly one solution</strong>, and you may not use the <em>same</em> element twice.</p>
+                <p>You can return the answer in any order.</p>
+
+                <p><strong>Example 1:</strong></p>
+                <pre>
+<strong>Input:</strong> nums = [2,7,11,15], target = 9
+<strong>Output:</strong> [0,1]
+<strong>Explanation:</strong> Because nums[0] + nums[1] == 9, we return [0, 1].
+</pre>
+                
+                <p><strong>Example 2:</strong></p>
+                <pre>
+<strong>Input:</strong> nums = [3,2,4], target = 6
+<strong>Output:</strong> [1,2]
+</pre>
+            </div>
+
+            <!-- Editor & Console Area -->
+            <div class="editor-area">
+                <div class="editor-toolbar">
+                    <select class="language-select" id="language-select">
+                        <option value="python">Python 3</option>
+                        <option value="javascript">JavaScript</option>
+                        <option value="cpp">C++</option>
+                        <option value="java">Java</option>
+                    </select>
+                    <div class="editor-buttons">
+                        <button class="btn btn-secondary" id="run-btn">
+                            <span class="spinner"></span>
+                            <i class="ph ph-play"></i>
+                            <span class="btn-text">Run</span>
+                        </button>
+                        <button class="btn btn-primary" id="submit-btn">
+                            <span class="spinner"></span>
+                            <i class="ph ph-paper-plane-tilt"></i>
+                            <span class="btn-text">Submit</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Simulated Code Editor with Line Numbers -->
+                <div class="code-editor-wrapper">
+                    <div class="line-numbers" id="line-numbers">
+                        <!-- Lines generated by JS -->
+                    </div>
+                    <textarea class="code-editor" id="code-editor" wrap="off" spellcheck="false">
+def twoSum(nums, target):
+    seen = {}
+    for i, num in enumerate(nums):
+        complement = target - num
+        if complement in seen:
+            return [seen[complement], i]
+        seen[num] = i
+    return []
+
+</textarea>
+                </div>
+                
+                <!-- Console -->
+                <div class="console-container">
+                    <div class="console-header" id="console-header">
+                        <span>Console</span>
+                        <i class="ph ph-caret-down"></i>
+                    </div>
+                    <div class="console-content collapsed" id="console-content">
+                        <!-- Output will be injected here -->
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <!-- 
+          * --------------------------------------------
+          * E. RIGHT SIDEBAR (PROGRESS)
+          * --------------------------------------------
+        -->
+        <aside class="panel sidebar-right">
+            
+            <!-- NEW: Profile Card -->
+            <div class="profile-card" id="sidebar-profile-card">
+                <div class="profile-img-container">
+                    <img src="https://placehold.co/80x80/436b95/ffffff?text=MS" alt="User Profile Picture" class="profile-img" id="profile-img">
+                    <span class="profile-status-dot"></span>
+                </div>
+                <h2 class="profile-name" id="profile-name">Manthan Savaj</h2> 
+                <p class="profile-email" id="profile-email">m.vinzuda@gmail.com</p>
+
+                <div class="profile-stats-grid">
+                    <div class="stat-detail">
+                        <span class="value" id="total-solved">42</span>
+                        <span class="label">Solved</span>
+                    </div>
+                    <div class="stat-detail">
+                        <span class="value" id="total-problems">150</span>
+                        <span class="label">Total Problems</span>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary" style="width: 100%;" id="view-profile-btn">
+                    <i class="ph ph-user-circle"></i>
+                    View More Details
+                </button>
+            </div>
+
+
+            <div class="stats-card">
+                <h3>Daily Coding Streak</h3>
+                <div class="streak-info">
+                    <div class="streak-days">
+                        5 <span>Days</span>
+                    </div>
+                    <span class="streak-label">60% to 1 week goal</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-bar-inner" style="width: 60%;"></div>
+                </div>
+            </div>
+            
+            <div class="stats-card">
+                <h3>Performance Summary</h3>
+                <div class="summary-stats">
+                    <div class="stat-item">
+                        <span class="value">42</span>
+                        <span class="label">Problems Solved</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="value">18h</span>
+                        <span class="label">Time Coded (Week)</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stats-card">
+                <h3>Weekly Progress</h3>
+                <div class="chart-container" id="chart-container">
+                    <!-- Bars generated by JS -->
+                    <div class="chart-bar" data-value="30" title="Mon">
+                        <div class="bar-fill"></div>
+                        <span class="bar-label">M</span>
+                    </div>
+                    <div class="chart-bar" data-value="50" title="Tue">
+                        <div class="bar-fill"></div>
+                        <span class="bar-label">T</span>
+                    </div>
+                    <div class="chart-bar" data-value="80" title="Wed">
+                        <div class="bar-fill"></div>
+                        <span class="bar-label">W</span>
+                    </div>
+                    <div class="chart-bar" data-value="20" title="Thu">
+                        <div class="bar-fill"></div>
+                        <span class="bar-label">T</span>
+                    </div>
+                    <div class="chart-bar" data-value="60" title="Fri">
+                        <div class="bar-fill"></div>
+                        <span class="bar-label">F</span>
+                    </div>
+                    <div class="chart-bar" data-value="90" title="Sat">
+                        <div class="bar-fill"></div>
+                        <span class="bar-label">S</span>
+                    </div>
+                    <div class="chart-bar" data-value="40" title="Sun">
+                        <div class="bar-fill"></div>
+                        <span class="bar-label">S</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Removed redundant stats-buttons container as the only button is now in profile-card -->
+        </aside>
+
+    </main>
+
+    <!-- 
+      * ==============================================
+      * F. TOAST NOTIFICATION
+      * ==============================================
+    -->
+    <div class="toast" id="toast-notification">
+        This is a toast!
+    </div>
+
+    <!-- 
+      * ==============================================
+      * G. PROFILE MODAL POPUP (નવું મોડલ)
+      * ==============================================
+    -->
+    <div class="modal-overlay" id="profile-modal-overlay">
+        <div class="profile-modal" id="profile-modal">
+            <button class="modal-close-btn" id="modal-close-btn">&times;</button>
+            
+            <!-- 8.1. PROFILE VIEW -->
+            <div class="profile-view">
+                <div class="modal-content-header">
+                    <div class="profile-img-container" style="width: 100px; height: 100px; margin-bottom: 1rem;">
+                        <img src="https://placehold.co/100x100/436b95/ffffff?text=MS" alt="User Profile Picture" class="profile-img" id="modal-profile-img">
+                        <span class="profile-status-dot"></span>
+                    </div>
+                    <h2 class="profile-name" id="modal-profile-name">Manthan Savaj</h2> 
+                    <p class="profile-email" id="modal-email-display">m.vinzuda@gmail.com</p> <!-- Email in header -->
+                </div>
+                
+                <ul class="modal-detail-list">
+                    <li>
+                        <i class="ph ph-envelope-simple"></i>
+                        <span class="detail-label">Email:</span>
+                        <span class="detail-value" id="modal-email">m.vinzuda@gmail.com</span>
+                    </li>
+                    <li>
+                        <i class="ph ph-hash"></i>
+                        <span class="detail-label">Total Problems:</span>
+                        <span class="detail-value" id="modal-total-problems">150</span>
+                    </li>
+                    <li>
+                        <i class="ph ph-check-square"></i>
+                        <span class="detail-label">Solved Problems:</span>
+                        <span class="detail-value" id="modal-total-solved">42</span>
+                    </li>
+                    <li>
+                        <i class="ph ph-arrow-circle-up"></i>
+                        <span class="detail-label">Rank:</span>
+                        <span class="detail-value">#1,234 (Top 10%)</span>
+                    </li>
+                    <li>
+                        <i class="ph ph-sparkle"></i>
+                        <span class="detail-label">Total XP:</span>
+                        <span class="detail-value">8,500 XP</span>
+                    </li>
+                </ul>
+                
+                <button class="btn btn-primary" style="width: 100%; margin-top: 2rem;" id="edit-profile-btn">
+                    <i class="ph ph-pencil-simple"></i>
+                    Edit Profile
+                </button>
+            </div>
+            
+            <!-- 8.2. EDIT VIEW (Now hidden/shown using simple display toggle) -->
+            <div class="edit-view">
+                <h2 class="edit-title">Edit Profile</h2>
+
+                <div class="form-group">
+                    <label for="edit-name">Name</label>
+                    <input type="text" id="edit-name" placeholder="Enter Your Name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit-email">Email</label>
+                    <input type="email" id="edit-email" placeholder="Enter Your Email">
+                </div>
+
+                <div class="form-group">
+                    <label for="edit-initials">Initials (max 2 characters)</label>
+                    <input type="text" id="edit-initials" maxlength="2" placeholder="Ex: MS">
+                </div>
+                
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 2rem;">
+                    Avatar text will update based on initials.
+                </p>
+
+                <div class="form-actions">
+                    <button class="btn btn-secondary" style="flex: 1;" id="cancel-edit-btn">
+                        Cancel
+                    </button>
+                    <button class="btn btn-primary" style="flex: 1;" id="save-profile-btn">
+                        Save Changes
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script src="MN Practice Script.js"></script>
+  
+</body>
+</html>

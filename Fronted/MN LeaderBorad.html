@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Leaderboard | AlgoVault</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="MN LeaderBoard Style.css">
+</head>
+<body data-theme="light"> 
+
+    <!-- SVG Icons Definitions (using Phosphor Icons where possible) -->
+    <svg width="0" height="0" style="display:none;">
+        <symbol id="icon-user" viewBox="0 0 256 256" fill="currentColor"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216ZM128,72a40,40,0,1,0,40,40A40,40,0,0,0,128,72Zm0,64a24,24,0,1,1,24-24A24,24,0,0,1,128,136Zm-32,32a72.16,72.16,0,0,1,64,0,8,8,0,0,1,0,14.65,80.1,80.1,0,0,0-64,0,8,8,0,0,1,0-14.65Z"></path></symbol>
+    </svg>
+
+    <!-- Section A: Top Navbar -->
+    <header class="navbar">
+        <div class="navbar-content">
+            <div class="logo">
+                <i class="ph-fill ph-code-block"></i>
+                AlgoVault
+            </div>
+            <nav class="nav-links">
+                <a href="MN Practice.html">Problems</a>
+                <a href="MN Explore.html" class="active">Explore</a>
+                <a href="MN Discuss.html">Discuss</a>
+                <a href="#">Profile</a>
+            </nav>
+            <div class="nav-right">
+                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+                    <i class="ph ph-moon"></i>
+                    <i class="ph ph-sun"></i>
+                </button>
+                <!-- UPDATED: Profile button in the top right -->
+                <button class="user-avatar-btn" id="open-profile-from-nav" aria-label="Open User Profile">MV</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        
+        <div class="content-wrapper">
+            
+            <!-- Main Leaderboard Column -->
+            <div class="leaderboard-main">
+                
+                <!-- Section B: Leaderboard Header -->
+                <section class="leaderboard-header">
+                    <h1>Global Leaderboard</h1>
+                    <p>Track your coding performance, compare ranks, and stay motivated on your path to clarity.</p>
+                    <div class="controls">
+                        <div class="search-container">
+                            <i class="ph ph-magnifying-glass"></i>
+                            <input type="text" id="search-input" placeholder="Find user by name...">
+                        </div>
+                        <div class="filter-tabs" id="filter-tabs">
+                            <button class="active" data-filter="all">All Time</button>
+                            <button data-filter="week">This Week</button>
+                            <button data-filter="today">Today</button>
+                            <button data-filter="friends">Friends Only</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Bonus: Top 3 Cards -->
+                <section class="top-three-cards" id="top-three-cards">
+                    <!-- JS will populate this -->
+                </section>
+
+                <!-- Section C: Leaderboard Table -->
+                <section class="leaderboard-table-container">
+                    
+                    <!-- Loading Skeleton -->
+                    <div class="loading-skeleton" id="loading-skeleton">
+                        <!-- JS will generate 10 skeleton rows -->
+                    </div>
+
+                    <!-- Table Wrapper for horizontal scroll -->
+                    <div class="table-wrapper">
+                        <table class="leaderboard-table" id="leaderboard-table">
+                            <thead>
+                                <tr>
+                                    <th>Rank</th>
+                                    <th>Username</th>
+                                    <th>Solved</th>
+                                    <th>Accuracy</th>
+                                    <th>Streak</th>
+                                    <th>Points</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-body">
+                                <!-- JS will populate this -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="pagination" id="pagination">
+                        <!-- JS will populate this -->
+                    </div>
+                </section>
+            </div>
+
+            <!-- Section D: Right Sidebar -->
+            <aside class="sidebar-stats">
+                <h2>Your Progress Snapshot</h2>
+                
+                <div class="stat-card">
+                    <div class="label">Your Rank</div>
+                    <div class="value" id="user-rank">0 <span class="rank-suffix">/ 0</span></div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Total Solved</div>
+                    <div class="value blue" id="user-solved">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Current Streak</div>
+                    <div class="value" id="user-streak">0 <span class="rank-suffix">days</span></div>
+                </div>
+
+                <div class="progress-graph-container">
+                    <h3>Weekly Progress</h3>
+                    <div class="graph" id="progress-graph">
+                        <!-- JS will populate this -->
+                    </div>
+                </div>
+
+                <button class="profile-button" id="open-profile-modal-btn">
+                    <i class="ph ph-chart-bar-horizontal"></i>
+                    View Full Dashboard
+                </button>
+
+                <p class="quote">"Focus on the journey, the rank is just a milestone."</p>
+            </aside>
+        </div>
+    </main>
+    
+    <!-- Confetti Canvas -->
+    <div id="confetti-canvas"></div>
+    
+    <!-- Toast Notification -->
+    <div class="toast" id="toast-notification">Notification</div>
+
+    <!-- * ==============================================
+      * PROFILE MODAL
+      * ============================================== -->
+    <div id="profile-modal" class="modal">
+        <div class="modal-content">
+            <button class="close-btn" id="close-profile-modal-btn">&times;</button>
+            
+            <div class="profile-header">
+                <div class="profile-avatar" id="modal-user-initial">U</div>
+                <h2 id="modal-username">You (Rank #10)</h2>
+                
+                <!-- NEW: Name and Email Details -->
+                <div class="profile-details">
+                    <p><i class="ph ph-user-circle"></i> Name: <span id="modal-full-name">User Name</span></p>
+                    <p><i class="ph ph-envelope"></i> Email: <span id="modal-email">user@example.com</span></p>
+                </div>
+                
+                <p id="modal-user-bio" style="margin-top: 1rem; font-style: italic;"></p>
+            </div>
+
+            <div class="profile-stats-grid">
+                <div class="profile-stat-card">
+                    <div class="value" id="modal-total-solved">0</div>
+                    <div class="label">Problems Solved</div>
+                </div>
+                <div class="profile-stat-card">
+                    <div class="value" id="modal-total-points">0</div>
+                    <div class="label">Total Points</div>
+                </div>
+                <div class="profile-stat-card">
+                    <div class="value" id="modal-current-streak">0</div>
+                    <div class="label">Longest Streak (Days)</div>
+                </div>
+                <div class="profile-stat-card">
+                    <div class="value" id="modal-accuracy">0%</div>
+                    <div class="label">Overall Accuracy</div>
+                </div>
+                <div class="profile-stat-card">
+                    <div class="value">21</div>
+                    <div class="label">Languages Used</div>
+                </div>
+                <div class="profile-stat-card">
+                    <div class="value">Master</div>
+                    <div class="label">Current Tier</div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 2rem;">
+                <button class="profile-button" style="width: 50%; max-width: 300px; margin: 0 auto; background-color: var(--accent-highlight);">
+                    <i class="ph ph-user"></i> View Profile
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- All JavaScript is embedded in this tag -->
+    <script src="MN LeaderBoard Script.js"></script>
+
+</body>
+</html>

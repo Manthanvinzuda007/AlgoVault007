@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeVerse Auth Portal</title>
+    
+    <!-- Import Fonts: Inter for UI, JetBrains Mono for code -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Import Feather Icons -->
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <!-- Link to External CSS -->
+    <link rel="stylesheet" href="MN LS Style.css">
+</head>
+<body class="dark-mode"> <!-- Default to dark mode -->
+
+    <!-- 1. Animated Background -->
+    <canvas id="codeverse-bg"></canvas>
+
+    <!-- 2. Theme Switcher -->
+    <div class="theme-switcher" id="theme-toggle">
+        <i data-feather="sun"></i>
+        <i data-feather="moon"></i>
+    </div>
+
+    <!-- 3. Main Auth Card -->
+    <main class="auth-container">
+        <div class="auth-card" id="auth-card">
+
+            <!-- LOGIN FORM -->
+            <form class="form-container" id="login-form">
+                <div class="auth-header">
+                    <h2>//AlgoVault//</h2>
+                    <p>Welcome to My Coding Universe.</p>
+                </div>
+                <div class="header-divider"></div>
+                
+                <div class="form-group">
+                    <label for="login-email">Email / Username</label>
+                    <input type="email" id="login-email" class="form-input" placeholder="you@example.com" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" class="form-input" placeholder="••••••••" required>
+                </div>
+                
+                <div class="form-options">
+                    <label class="checkbox-group" for="remember-me">
+                        <input type="checkbox" id="remember-me">
+                        <span class="checkbox-custom"><i data-feather="check"></i></span>
+                        Remember Me
+                    </label>
+                    <a href="#" class="form-link" id="forgot-pass-link">Forgot Password?</a>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" id="login-btn">
+                    Sign In
+                </button>
+                
+                <div class="social-divider">OR</div>
+                
+                <div class="social-buttons">
+                    <a href="#" class="social-btn" aria-label="Sign in with GitHub">
+                        <i data-feather="github"></i>
+                    </a>
+                    <a href="#" class="social-btn" aria-label="Sign in with Google">
+                        <i data-feather="chrome"></i> <!-- Using 'chrome' as a stand-in for Google logo -->
+                    </a>
+                    <a href="#" class="social-btn" aria-label="Sign in with LinkedIn">
+                        <i data-feather="linkedin"></i>
+                    </a>
+                </div>
+                
+                <p class="form-toggle-text">
+                    New here? <a href="#" class="form-link" id="to-signup-link">Create an account</a>
+                </p>
+            </form>
+
+            <!-- SIGN-UP FORM (Hidden by default) -->
+            <form class="form-container" id="signup-form">
+                <div class="auth-header">
+                    <h2>//AlgoVault//</h2>
+                    <p>Create your new account.</p>
+                </div>
+                <div class="header-divider"></div>
+
+                <div class="form-group">
+                    <label for="signup-name">Full Name</label>
+                    <input type="text" id="signup-name" class="form-input" placeholder="Your Name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="signup-email">Email</label>
+                    <input type="email" id="signup-email" class="form-input" placeholder="you@example.com" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="signup-password">Password</label>
+                    <input type="password" id="signup-password" class="form-input" placeholder="Create a strong password" required>
+                    <div class="password-strength">
+                        <div class="strength-bar" id="strength-bar"></div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="signup-confirm-password">Confirm Password</label>
+                    <input type="password" id="signup-confirm-password" class="form-input" placeholder="••••••••" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="checkbox-group" for="not-robot" id="not-robot-label">
+                        <input type="checkbox" id="not-robot" required>
+                        <span class="checkbox-custom" id="not-robot-custom-check"><i data-feather="check"></i></span>
+                        <span id="not-robot-text">I am not a robot</span>
+                    </label>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Create Account</button>
+                
+                <div class="social-divider"></div>
+                
+                <p class="form-toggle-text">
+                    Already have an account? <a href="#" class="form-link" id="to-login-link">Log In instead</a>
+                </p>
+            </form>
+
+        </div>
+    </main>
+    
+    <!-- 4. Forgot Password Modal -->
+    <div class="modal-overlay" id="forgot-modal">
+        <div class="modal-card">
+            <i data-feather="x" class="modal-close-btn" id="modal-close-btn"></i>
+            
+            <!-- Modal Content: Step 1 (Form) -->
+            <div id="forgot-form-content">
+                <div class="auth-header" style="margin-bottom: 24px;">
+                    <h2>Reset Password</h2>
+                    <p>Enter your email to get a reset link.</p>
+                </div>
+                
+                <form id="forgot-password-form">
+                    <div class="form-group">
+                        <label for="forgot-email">Email</label>
+                        <input type="email" id="forgot-email" class="form-input" placeholder="you@example.com" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send Reset Link</button>
+                </form>
+            </div>
+            
+            <!-- Modal Content: Step 2 (Success) -->
+            <div id="forgot-success-msg">
+                <i data-feather="check-circle"></i>
+                <h2>Check Your Inbox!</h2>
+                <p>We've sent a password reset link to your email address.</p>
+            </div>
+            
+        </div>
+    </div>
+
+    <!-- 5. Human Verification Modal -->
+    <div class="modal-overlay" id="human-verification-modal">
+        <div class="modal-card" id="human-verification-card">
+            <i data-feather="x" class="modal-close-btn" id="human-modal-close-btn"></i>
+            
+            <div class="auth-header" style="margin-bottom: 16px;">
+                <h2>Please verify you are human</h2>
+                <p>To continue, please click the <strong id="challenge-icon-name">check</strong> icon.</p>
+            </div>
+            
+            <div class="verification-challenge-grid" id="verification-challenge-grid">
+                <!-- Icons will be dynamically inserted here -->
+            </div>
+            
+            <div class="verification-status" id="verification-status">
+                &nbsp; <!-- Placeholder for height -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Import External JS -->
+    <script src="MN LS Script.js"></script>
+</body>
+</html>

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Catalog | AlgoVault</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="MN Problem Style.css">
+</head>
+<body data-theme="light">
+
+    <header class="navbar">
+        <div class="navbar-content">
+            <a href="#" class="nav-logo">
+                <i class="ph-fill ph-code-block"></i>
+                AlgoVault
+            </a>
+            <nav class="nav-center">
+                <a href="MN Home Page.html">Home</a> 
+                <a href="MN Problem.html" class="active">Problems</a>
+                <a href="MN Explore.html">Explore</a> 
+                <a href="MN DISCUSS.HTML">Discuss</a> 
+            </nav>
+            <div class="nav-right">
+                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+                    <i class="ph ph-moon"></i>
+                    <i class="ph ph-sun"></i>
+                </button>
+                <img src="https://placehold.co/36x36/caa855/ffffff?text=MV" alt="Profile Avatar" class="profile-avatar">
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <header class="problem-header">
+            <h1>The Complete Problem Catalog</h1>
+            <p>Review problem details. Press 'Solve' to begin practice in the Code Arena.</p>
+        </header>
+
+        <div class="main-layout">
+            
+            <aside class="filter-panel">
+                
+                <div class="search-bar-container">
+                    <i class="ph ph-magnifying-glass"></i>
+                    <input type="text" id="search-input" class="search-input" placeholder="Search by title or topic...">
+                </div>
+
+                <div class="filter-group">
+                    <h4>Difficulty</h4>
+                    <label>
+                        <span class="custom-checkbox-container">
+                             <input type="checkbox" name="difficulty" value="Easy" checked class="custom-checkbox-input" id="diff-easy">
+                             <span class="custom-checkbox-checkmark"><i class="ph ph-check"></i></span>
+                        </span>
+                        <span style="color: var(--difficulty-easy);">Easy</span>
+                    </label>
+                    <label>
+                        <span class="custom-checkbox-container">
+                             <input type="checkbox" name="difficulty" value="Medium" checked class="custom-checkbox-input" id="diff-medium">
+                             <span class="custom-checkbox-checkmark"><i class="ph ph-check"></i></span>
+                        </span>
+                        <span style="color: var(--difficulty-medium);">Medium</span>
+                    </label>
+                    <label>
+                        <span class="custom-checkbox-container">
+                             <input type="checkbox" name="difficulty" value="Hard" checked class="custom-checkbox-input" id="diff-hard">
+                             <span class="custom-checkbox-checkmark"><i class="ph ph-check"></i></span>
+                        </span>
+                        <span style="color: var(--difficulty-hard);">Hard</span>
+                    </label>
+                </div>
+                
+                <div class="filter-group" id="topic-filters">
+                    <h4>Topics</h4>
+                    <label>
+                        <span class="custom-checkbox-container">
+                             <input type="checkbox" name="topic" value="Array" class="custom-checkbox-input" id="topic-array">
+                             <span class="custom-checkbox-checkmark"><i class="ph ph-check"></i></span>
+                        </span>
+                        <span>Array</span>
+                    </label>
+                    <label>
+                        <span class="custom-checkbox-container">
+                             <input type="checkbox" name="topic" value="DP" class="custom-checkbox-input" id="topic-dp">
+                             <span class="custom-checkbox-checkmark"><i class="ph ph-check"></i></span>
+                        </span>
+                        <span>Dynamic Programming</span>
+                    </label>
+                    <label>
+                        <span class="custom-checkbox-container">
+                             <input type="checkbox" name="topic" value="String" class="custom-checkbox-input" id="topic-string">
+                             <span class="custom-checkbox-checkmark"><i class="ph ph-check"></i></span>
+                        </span>
+                        <span>String</span>
+                    </label>
+                    <label>
+                        <span class="custom-checkbox-container">
+                             <input type="checkbox" name="topic" value="Graph" class="custom-checkbox-input" id="topic-graph">
+                             <span class="custom-checkbox-checkmark"><i class="ph ph-check"></i></span>
+                        </span>
+                        <span>Graph</span>
+                    </label>
+                    <label>
+                         <span class="custom-checkbox-container">
+                             <input type="checkbox" name="topic" value="Tree" class="custom-checkbox-input" id="topic-tree">
+                             <span class="custom-checkbox-checkmark"><i class="ph ph-check"></i></span>
+                        </span>
+                        <span>Tree</span>
+                    </label>
+                    <label>
+                        <span class="custom-checkbox-container">
+                             <input type="checkbox" name="topic" value="Linked List" class="custom-checkbox-input" id="topic-linkedlist">
+                             <span class="custom-checkbox-checkmark"><i class="ph ph-check"></i></span>
+                        </span>
+                        <span>Linked List</span>
+                    </label>
+                    <label>
+                        <span class="custom-checkbox-container">
+                             <input type="checkbox" name="topic" value="Hash Table" class="custom-checkbox-input" id="topic-hashtable">
+                             <span class="custom-checkbox-checkmark"><i class="ph ph-check"></i></span>
+                        </span>
+                        <span>Hash Table</span>
+                    </label>
+                    <label>
+                        <span class="custom-checkbox-container">
+                             <input type="checkbox" name="topic" value="Sorting" class="custom-checkbox-input" id="topic-sorting">
+                             <span class="custom-checkbox-checkmark"><i class="ph ph-check"></i></span>
+                        </span>
+                        <span>Sorting</span>
+                    </label>
+                    <label>
+                        <span class="custom-checkbox-container">
+                             <input type="checkbox" name="topic" value="Backtracking" class="custom-checkbox-input" id="topic-backtracking">
+                             <span class="custom-checkbox-checkmark"><i class="ph ph-check"></i></span>
+                        </span>
+                        <span>Backtracking</span>
+                    </label>
+                    <label>
+                        <span class="custom-checkbox-container">
+                             <input type="checkbox" name="topic" value="Trie" class="custom-checkbox-input" id="topic-trie">
+                             <span class="custom-checkbox-checkmark"><i class="ph ph-check"></i></span>
+                        </span>
+                        <span>Trie</span>
+                    </label>
+                    <label>
+                        <span class="custom-checkbox-container">
+                             <input type="checkbox" name="topic" value="Greedy" class="custom-checkbox-input" id="topic-greedy">
+                             <span class="custom-checkbox-checkmark"><i class="ph ph-check"></i></span>
+                        </span>
+                        <span>Greedy</span>
+                    </label>
+                     <label>
+                         <span class="custom-checkbox-container">
+                             <input type="checkbox" name="topic" value="Math" class="custom-checkbox-input" id="topic-math">
+                             <span class="custom-checkbox-checkmark"><i class="ph ph-check"></i></span>
+                        </span>
+                        <span>Math</span>
+                    </label>
+                    <label>
+                        <span class="custom-checkbox-container">
+                             <input type="checkbox" name="topic" value="Custom10" class="custom-checkbox-input" id="topic-c10">
+                             <span class="custom-checkbox-checkmark"><i class="ph ph-check"></i></span>
+                        </span>
+                        <span>Custom Topic 10</span>
+                    </label>
+                    <label>
+                        <span class="custom-checkbox-container">
+                             <input type="checkbox" name="topic" value="Custom7" class="custom-checkbox-input" id="topic-c7">
+                             <span class="custom-checkbox-checkmark"><i class="ph ph-check"></i></span>
+                        </span>
+                        <span>Custom Topic 7</span>
+                    </label>
+                    <label>
+                        <span class="custom-checkbox-container">
+                             <input type="checkbox" name="topic" value="Custom4" class="custom-checkbox-input" id="topic-c4">
+                             <span class="custom-checkbox-checkmark"><i class="ph ph-check"></i></span>
+                        </span>
+                        <span>Custom Topic 4</span>
+                    </label>
+                    <label>
+                        <span class="custom-checkbox-container">
+                             <input type="checkbox" name="topic" value="Custom6" class="custom-checkbox-input" id="topic-c6">
+                             <span class="custom-checkbox-checkmark"><i class="ph ph-check"></i></span>
+                        </span>
+                        <span>Custom Topic 6</span>
+                    </label>
+                </div>
+            </aside>
+
+            <section class="problem-list-area">
+                
+                <div class="problem-grid" id="problem-grid">
+                </div>
+
+                <div class="pagination-container" id="pagination-container">
+                </div>
+
+            </section>
+
+        </div>
+
+        
+        <div class="modal-overlay" id="detail-modal-overlay">
+            <div class="modal" id="detail-modal">
+                <button class="modal-close" id="modal-close-btn">&times;</button>
+                <div class="modal-content">
+                    <h2 id="modal-title">Problem Title</h2>
+                    <div class="modal-meta-row">
+                        <span id="modal-difficulty" class="difficulty-tag tag-easy">Easy</span>
+                        <span id="modal-acceptance" class="acceptance-rate">55.0% Acceptance</span>
+                    </div>
+                    
+                    <div id="modal-tags" class="topic-tags my-4"></div>
+
+                    <p id="modal-description">This is a short description of the problem, explaining what the user needs to achieve. This page is purely for viewing details before moving to the practice environment.</p>
+
+                    <h4 class="modal-section-title">Constraints:</h4>
+                    <ul id="modal-constraints">
+                        <li>Constraint 1</li>
+                        <li>Constraint 2</li>
+                    </ul>
+                    
+                    <h4 class="modal-section-title">Example:</h4>
+                    <pre id="modal-example">Input: [2, 7, 11, 15], target = 9\nOutput: [0, 1]</pre>
+
+                    <button class="btn-primary" id="start-practice-btn">
+                        <i class="ph ph-code-block-fill"></i> Start Practice
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+    <script src="MN Problem Script.js"></script>
+</body>
+</html>
