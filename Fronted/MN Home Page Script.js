@@ -1,3 +1,7 @@
+  //  *********************************************** //
+                   $ Created By $ 
+                 $ Manthan Vinzuda $
+   // ***********************************************  //     
 // Sample JavaScript for Home Page Interactivity and Animations
         // Sample goal progress data
         const userGoals = [
@@ -94,4 +98,9 @@
             elementsToAnimate.forEach(el => {
                 observer.observe(el);
             });
+
         });
+  //  *********************************************** //
+                   $ Created By $ 
+                 $ Manthan Vinzuda $
+   // ***********************************************  //     
