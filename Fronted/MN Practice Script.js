@@ -1,4 +1,7 @@
-
+  //  *********************************************** //
+                   $ Created By $ 
+                 $ Manthan Vinzuda $
+   // ***********************************************  //     
       document.addEventListener('DOMContentLoaded', () => {
 
             // --- Get All Elements ---
@@ -460,3 +463,7 @@ class Solution {
                 lineNumbersEl.scrollTop = codeEditor.scrollTop;
             }); 
         });
+   //  *********************************************** //
+                   $ Created By $ 
+                 $ Manthan Vinzuda $
+   // ***********************************************  //     
