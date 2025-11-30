@@ -1,4 +1,9 @@
-    /* DISCUSS STYLE.CSS */
+  //  *********************************************** //
+                   $ Created By $ 
+                 $ Manthan Vinzuda $
+   // ***********************************************  //     
+
+/* DISCUSS STYLE.CSS */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;600;700;800&display=swap');
         :root {
             --font-family: 'Inter', sans-serif;
@@ -267,4 +272,8 @@
         .alert-modal button:hover {
             background-color: #d32f2f;
         }
-    
+
+      //  *********************************************** //
+                   $ Created By $ 
+                 $ Manthan Vinzuda $
+   // ***********************************************  //     
