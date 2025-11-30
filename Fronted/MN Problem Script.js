@@ -1,3 +1,7 @@
+  //  *********************************************** //
+                   $ Created By $ 
+                 $ Manthan Vinzuda $
+   // ***********************************************  //     
         document.addEventListener('DOMContentLoaded', () => {
             
             const mockProblems = [
@@ -268,4 +272,9 @@
             filteredProblems = sortProblems(mockProblems, currentSort.key, currentSort.direction);
             initTheme();
             renderCards(); 
+
         });
+  //  *********************************************** //
+                   $ Created By $ 
+                 $ Manthan Vinzuda $
+   // ***********************************************  //     
