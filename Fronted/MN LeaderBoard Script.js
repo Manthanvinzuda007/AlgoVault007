@@ -1,3 +1,7 @@
+   //  *********************************************** //
+                   $ Created By $ 
+                 $ Manthan Vinzuda $
+   // ***********************************************  //     
         document.addEventListener('DOMContentLoaded', () => {
 
             // --- MOCK DATA ---
@@ -515,3 +519,7 @@
             filterTabs.addEventListener('click', handleFilter);
 
         });
+    //  *********************************************** //
+                   $ Created By $ 
+                 $ Manthan Vinzuda $
+   // ***********************************************  //     
