@@ -1,3 +1,7 @@
+  //  *********************************************** //
+                   $ Created By $ 
+                 $ Manthan Vinzuda $
+   // ***********************************************  //     
 // --- MN LS Script.js ---
         document.addEventListener('DOMContentLoaded', () => {
 
@@ -465,5 +469,9 @@
             alert("Server error. Try again later.");
         }
     });
+  //  *********************************************** //
+                   $ Created By $ 
+                 $ Manthan Vinzuda $
+   // ***********************************************  //     
 
     
