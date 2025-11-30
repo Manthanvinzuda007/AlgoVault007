@@ -1,4 +1,9 @@
-    /* DISCUSS SCRIPT.JS */
+  //  *********************************************** //
+                   $ Created By $ 
+                 $ Manthan Vinzuda $
+   // ***********************************************  //     
+
+        /* DISCUSS SCRIPT.JS */
     
         const getRelativeTime = (date) => {
             const seconds = Math.floor((new Date() - date) / 1000);
@@ -273,4 +278,8 @@
                 postFormEl.reset();
             });
         });
-    
+
+      //  *********************************************** //
+                   $ Created By $ 
+                 $ Manthan Vinzuda $
+   // ***********************************************  //     
